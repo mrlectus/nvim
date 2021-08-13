@@ -1,0 +1,6 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =4
+let g:netrw_dirhist_4='/home/brown/Documents/Geeny/javacodes'
+let g:netrw_dirhist_3='/home/brown/Documents/Geeny'
+let g:netrw_dirhist_2='/home/brown/Documents'
+let g:netrw_dirhist_1='/home/brown'
