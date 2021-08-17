@@ -1,5 +1,7 @@
 require'lspconfig'.texlab.setup{}
 require'lspconfig'.cssls.setup{}
+require('evil_lualine')
+-- require('lualine').setup()
 require'lspconfig'.pylsp.setup{}
 require'lspconfig'.sqlls.setup{}
 require'lspconfig'.phpactor.setup{}
@@ -129,7 +131,7 @@ require'compe'.setup {
     winhighlight = "NormalFloat:CompeDocumentation,FloatBorder:CompeDocumentationBorder",
     max_width = 90,
     min_width = 60,
-    max_height = math.floor(vim.o.lines * 0.3),
+    max_height = math.floor(vim.o.lines * 0.1),
     min_height = 1,
   };
 
@@ -200,7 +202,7 @@ cfg = {
   hint_scheme = "String",
   use_lspsaga = false,  -- set to true if you want to use lspsaga popup
   hi_parameter = "Search", -- how your parameter will be highlight
-  max_height = 12, -- max height of signature floating_window, if content is more than max_height, you can scroll down
+  max_height = 8, -- max height of signature floating_window, if content is more than max_height, you can scroll down
   -- to view the hiding contents
   max_width = 90, -- max_width of signature floating_window, line will be wrapped if exceed max_width
   handler_opts = {
