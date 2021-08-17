@@ -1,8 +1,22 @@
 require'lspconfig'.texlab.setup{}
+require'lspconfig'.cssls.setup{}
 require'lspconfig'.pylsp.setup{}
+require'lspconfig'.sqlls.setup{}
+require'lspconfig'.phpactor.setup{}
+require'lspconfig'.bashls.setup{}
+require'lspconfig'.html.setup{}
+require'lspconfig'.tsserver.setup{
+ filetypes = { "typescript", "typescriptreact", "typescript.tsx", "typescript.ts" },
+  root_dir = function() return vim.loop.cwd() end   
+}
 --require'lspconfig'.ccls.setup{}
 require'lspconfig'.clangd.setup{}
 require'nvim-web-devicons'.get_icons()
+require'lspconfig'.sqlls.setup{
+  cmd = {"/home/brown/node/bin/sql-language-server", "up", "--method", "stdio"};
+  ...
+}
+
 local saga = require 'lspsaga'
 saga.init_lsp_saga{
   error_sign = '',
@@ -69,50 +83,33 @@ for _, lsp in ipairs(servers) do
   }
 end
 require'lspconfig'.pyright.setup{}
-require('lspkind').init({
-    -- enables text annotations
-    --
-    -- default: true
-    with_text = true,
-
-    -- default symbol map
-    -- can be either 'default' or
-    -- 'codicons' for codicon preset (requires vscode-codicons font installed)
-    --
-    -- default: 'default'
-    preset = 'codicons',
-
-    -- override preset symbols
-    --
-    -- default: {}
-    symbol_map = {
-      Text = "",
-      Method = "",
-      Function = "",
-      Constructor = "",
-      Field = "ﰠ",
-      Variable = "",
-      Class = "ﴯ",
-      Interface = "",
-      Module = "",
-      Property = "ﰠ",
-      Unit = "塞",
-      Value = "",
-      Enum = "",
-      Keyword = "",
-      Snippet = "",
-      Color = "",
-      File = "",
-      Reference = "",
-      Folder = "",
-      EnumMember = "",
-      Constant = "",
-      Struct = "פּ",
-      Event = "",
-      Operator = "",
-      TypeParameter = ""
-    },
-})
+require('vim.lsp.protocol').CompletionItemKind = {
+      '  Text';          -- = 1
+      '  Function';      -- = 2;
+      '  Method';        -- = 3;
+      '  Constructor';   -- = 4;
+      '  Field';         -- = 5;
+      '  Variable';      -- = 6;
+      '  Class';         -- = 7;
+      '  Interface';     -- = 8;
+      '  Module';        -- = 9;
+      '  Property';      -- = 10;
+      '  Unit';          -- = 11;
+      '  Value';         -- = 12;
+      '  Enum';          -- = 13;
+      '  Keyword';       -- = 14;
+      '  Snippet';       -- = 15;
+      '  Color';         -- = 16;
+      '  File';          -- = 17;
+      '  Reference';     -- = 18;
+      '  Folder';        -- = 19;
+      '  EnumMember';    -- = 20;
+      '  Constant';      -- = 21;
+      '  Struct';        -- = 22;
+      '  Event';         -- = 23;
+      '  Operator';      -- = 24;
+      '  TypeParameter'; -- = 25;
+}
 -- auto completion
 require'compe'.setup {
   enabled = true;
@@ -322,6 +319,97 @@ refactor = {
     },
   },
 }
+local lsp_status = require('lsp-status')
+lsp_status.register_progress()
+
+local lspconfig = require('lspconfig')
+
+-- Some arbitrary servers
+lspconfig.clangd.setup({
+  handlers = lsp_status.extensions.clangd.setup(),
+  init_options = {
+    clangdFileStatus = true
+  },
+  on_attach = lsp_status.on_attach,
+  capabilities = lsp_status.capabilities
+})
+
+-- lspconfig.pyls_ms.setup({
+--   handlers = lsp_status.extensions.pyls_ms.setup(),
+--   settings = { python = { workspaceSymbols = { enabled = true }}},
+--   on_attach = lsp_status.on_attach,
+--   capabilities = lsp_status.capabilities
+-- })
+--
+lspconfig.ghcide.setup({
+  on_attach = lsp_status.on_attach,
+  capabilities = lsp_status.capabilities
+})
+lspconfig.rust_analyzer.setup({
+  on_attach = lsp_status.on_attach,
+  capabilities = lsp_status.capabilities
+})
+-- init.lua
+vim.g.symbols_outline = {
+    highlight_hovered_item = true,
+    show_guides = true,
+    auto_preview = true,
+    position = 'right',
+    width = 25,
+    show_numbers = false,
+    show_relative_numbers = false,
+    show_symbol_details = true,
+    keymaps = { -- These keymaps can be a string or a table for multiple keys
+        close = {"<Esc>", "q"},
+        goto_location = "<Cr>",
+        focus_location = "o",
+        hover_symbol = "<C-space>",
+        rename_symbol = "r",
+        code_actions = "a",
+    },
+    lsp_blacklist = {},
+    symbol_blacklist = {},
+    symbols = {
+        File = {icon = "", hl = "TSURI"},
+        Module = {icon = "", hl = "TSNamespace"},
+        Namespace = {icon = "", hl = "TSNamespace"},
+        Package = {icon = "", hl = "TSNamespace"},
+        Class = {icon = "𝓒", hl = "TSType"},
+        Method = {icon = "ƒ", hl = "TSMethod"},
+        Property = {icon = "", hl = "TSMethod"},
+        Field = {icon = "", hl = "TSField"},
+        Constructor = {icon = "", hl = "TSConstructor"},
+        Enum = {icon = "ℰ", hl = "TSType"},
+        Interface = {icon = "ﰮ", hl = "TSType"},
+        Function = {icon = "", hl = "TSFunction"},
+        Variable = {icon = "", hl = "TSConstant"},
+        Constant = {icon = "", hl = "TSConstant"},
+        String = {icon = "𝓐", hl = "TSString"},
+        Number = {icon = "#", hl = "TSNumber"},
+        Boolean = {icon = "⊨", hl = "TSBoolean"},
+        Array = {icon = "", hl = "TSConstant"},
+        Object = {icon = "⦿", hl = "TSType"},
+        Key = {icon = "🔐", hl = "TSType"},
+        Null = {icon = "NULL", hl = "TSType"},
+        EnumMember = {icon = "", hl = "TSField"},
+        Struct = {icon = "𝓢", hl = "TSType"},
+        Event = {icon = "🗲", hl = "TSType"},
+        Operator = {icon = "+", hl = "TSOperator"},
+        TypeParameter = {icon = "𝙏", hl = "TSParameter"}
+    }
+}
+--Enable (broadcasting) snippet capability for completion
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+require'lspconfig'.html.setup {
+  capabilities = capabilities,
+}
+
+require'lspconfig'.cssls.setup {
+  capabilities = capabilities,
+}
+
 vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
 vim.lsp.handlers['textDocument/references'] = require'lsputil.locations'.references_handler
 vim.lsp.handlers['textDocument/definition'] = require'lsputil.locations'.definition_handler

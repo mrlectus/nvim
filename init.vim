@@ -2,27 +2,29 @@
 set nocompatible        " disable compatibility mode with vi
 filetype off            " disable filetype detection (but re-enable later, see below)
 call plug#begin('~/.config/nvim/plugged')
-  Plug 'tpope/vim-sensible'
-  Plug 'onsails/lspkind-nvim'
-  Plug 'kyazdani42/nvim-web-devicons'
-  Plug 'neovim/nvim-lspconfig'
-  Plug 'glepnir/lspsaga.nvim'
-  Plug 'lifepillar/vim-gruvbox8'
-  Plug 'hrsh7th/nvim-compe'
-  Plug 'anott03/nvim-lspinstall'
-  Plug 'vim-airline/vim-airline-themes'
-  Plug 'vim-airline/vim-airline'
-  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
-  Plug 'nvim-treesitter/playground'
-  Plug 'nvim-treesitter/nvim-treesitter-refactor'
-  Plug 'ryanoasis/vim-devicons'
-  Plug 'ray-x/lsp_signature.nvim'
-  Plug 'nvim-lua/popup.nvim'
-  Plug 'nvim-lua/plenary.nvim'
-  Plug 'nvim-telescope/telescope.nvim'
-  Plug 'RishabhRD/popfix'
   Plug 'RishabhRD/nvim-lsputils'
+  Plug 'RishabhRD/popfix'
+  Plug 'anott03/nvim-lspinstall'
+  Plug 'glepnir/lspsaga.nvim'
+  Plug 'hrsh7th/nvim-compe'
+  Plug 'kyazdani42/nvim-web-devicons'
+  Plug 'lifepillar/vim-gruvbox8'
+  Plug 'neovim/nvim-lspconfig'
+  Plug 'nvim-lua/lsp-status.nvim'
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'nvim-lua/popup.nvim'
+  Plug 'nvim-telescope/telescope.nvim'
+  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
+  Plug 'nvim-treesitter/nvim-treesitter-refactor'
+  Plug 'nvim-treesitter/playground'
+  Plug 'onsails/lspkind-nvim'
   Plug 'preservim/nerdcommenter'
+  Plug 'ray-x/lsp_signature.nvim'
+  Plug 'ryanoasis/vim-devicons'
+  Plug 'simrat39/symbols-outline.nvim'
+  Plug 'tpope/vim-sensible'
+  Plug 'vim-airline/vim-airline'
+  Plug 'vim-airline/vim-airline-themes'
 call plug#end()
 
 """" Lua config
@@ -146,6 +148,13 @@ let g:NERDTrimTrailingWhitespace = 1
 " Enable NERDCommenterToggle to check all selected lines is commented or not 
 let g:NERDToggleCheckAllLines = 1
 
+let g:LanguageClient_serverCommands = {
+    \ 'sh': ['bash-language-server', 'start']
+    \ }
+
+let g:LanguageClient_serverCommands = {
+    \ 'sql': ['sql-language-server', 'up', '--method', 'stdio'],
+    \ }
 "" nvim compe
 inoremap <silent><expr> <C-Space> compe#complete()
 inoremap <silent><expr> <CR>      compe#confirm('<CR>')
@@ -156,3 +165,10 @@ inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
 if has("autocmd")
   au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 endif
+function! LspStatus() abort
+  if luaeval('#vim.lsp.buf_get_clients() > 0')
+    return luaeval("require('lsp-status').status()")
+  endif
+
+  return ''
+endfunction
