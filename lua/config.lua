@@ -1,8 +1,8 @@
 --Enable (broadcasting) snippet capability for completion
-local lspconfig = require('lspconfig')
-local lsp_status = require('lsp-status')
+local lspconfig = require("lspconfig")
+local lsp_status = require("lsp-status")
 local on_attach = function(client)
-    require'completion'.on_attach(client)
+  require "completion".on_attach(client)
 end
 
 vim.api.nvim_set_option("termguicolors", true)
@@ -13,7 +13,7 @@ vim.lsp.set_log_level("debug")
 vim.o.hlsearch = false
 
 --Enable mouse mode
-vim.o.mouse = 'a'
+vim.o.mouse = "a"
 
 --Enable break indent
 vim.o.breakindent = true
@@ -26,13 +26,13 @@ vim.o.smartcase = true
 
 --Decrease update time
 vim.o.updatetime = 250
-vim.wo.signcolumn = 'yes'
+vim.wo.signcolumn = "yes"
 
---Remap space as leader key
-vim.api.nvim_set_keymap('', '<Space>', '<Nop>', { noremap = true, silent = true })
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
-
+--[[ --Remap space as leader key ]]
+--[[ vim.api.nvim_set_keymap('', '<Space>', '<Nop>', { noremap = true, silent = true }) ]]
+--[[ vim.g.mapleader = ' ' ]]
+--[[ vim.g.maplocalleader = ' ' ]]
+--[[  ]]
 -- Highlight on yank
 vim.api.nvim_exec(
   [[
@@ -45,36 +45,42 @@ vim.api.nvim_exec(
 )
 
 --- require
-require('nvim_lsp/bashls_conf')
-require('nvim_lsp/clangd_conf')
-require('nvim_lsp/cssls_conf')
-require('nvim_lsp/gopls_conf')
-require('nvim_lsp/html_conf')
-require('nvim_lsp/phpactor_conf')
-require('nvim_lsp/pylsp_conf')
-require('nvim_lsp/rust_analyzer_conf')
-require('nvim_lsp/sqls_conf')
-require('nvim_lsp/texlab_conf')
-require('nvim_lsp/tsserver_conf')
-require('nvim_ext/barbar_conf')
-require('nvim_ext/cheatsheet_conf')
-require('nvim_ext/colors_conf')
-require('nvim_ext/devicons_conf')
-require('nvim_ext/evil_lualine_conf')
-require('nvim_ext/lspkind_conf')
-require('nvim_ext/cmp_conf')
-require('nvim_ext/lspsaga_conf')
-require('nvim_ext/signature_conf')
-require('nvim_ext/telescope_conf')
-require('nvim_ext/treesitter_conf')
-require('nvim_ext/trouble_conf')
-require('nvim_lsp/keybind')
-require('nvim_ext/gitsign_conf')
-require('nvim_ext/luasnip_conf')
-
-vim.notify = require("notify")
+require("nvim_lsp/bashls_conf")
+require("nvim_lsp/clangd_conf")
+require("nvim_lsp/cssls_conf")
+--require("nvim_lsp/ccls_conf")
+require "lspconfig".clangd.setup {}
+require("nvim_lsp/gopls_conf")
+require("nvim_lsp/html_conf")
+require("nvim_lsp/phpactor_conf")
+require("nvim_lsp/pylsp_conf")
+require("nvim_lsp/rust_analyzer_conf")
+require("nvim_lsp/sqls_conf")
+require("nvim_lsp/texlab_conf")
+require("nvim_lsp/tsserver_conf")
+require("nvim_ext/barbar_conf")
+require("nvim_ext/cheatsheet_conf")
+require("nvim_ext/colors_conf")
+require("nvim_ext/autopair_conf")
+require("nvim_ext/devicons_conf")
+require("nvim_ext/evil_lualine_conf")
+require("nvim_ext/lspkind_conf")
+require("nvim_ext/compe_conf")
+--require("nvim_ext/cmp_conf")
+require("nvim_ext/lspsaga_conf")
+require("nvim_ext/signature_conf")
+require("nvim_ext/telescope_conf")
+require("nvim_ext/treesitter_conf")
+require("nvim_ext/trouble_conf")
+require("nvim_lsp/keybind")
+require("nvim_ext/gitsign_conf")
+require("nvim_ext/luasnip_conf")
+require("nvim_ext/format_conf")
+require("nvim_ext/dap_config")
+require "nvim-tree".setup()
+require "lspconfig".emmet_ls.setup {}
+require("which-key").setup {}
 lsp_status.register_progress()
-
 -- Go-to definition in a split window
 local function goto_definition(split_cmd)
   local util = vim.lsp.util
@@ -108,11 +114,34 @@ local function goto_definition(split_cmd)
   return handler
 end
 
-vim.lsp.handlers["textDocument/definition"] = goto_definition('split')
+vim.lsp.handlers["textDocument/definition"] = goto_definition("split")
 
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-  virtual_text = {
-    source = "always",  -- Or "if_many"
+vim.lsp.handlers["textDocument/publishDiagnostics"] =
+  vim.lsp.with(
+  vim.lsp.diagnostic.on_publish_diagnostics,
+  {
+    virtual_text = {
+      source = "always" -- Or "if_many"
+    }
   }
-})
+)
+require("lualine").setup {options = {theme = "enfocado"}}
+local autosave = require("autosave")
 
+autosave.setup(
+  {
+    enabled = true,
+    execution_message = "AutoSave: saved at " .. vim.fn.strftime("%H:%M:%S"),
+    events = {"InsertLeave"},
+    conditions = {
+      exists = true,
+      filename_is_not = {},
+      filetype_is_not = {},
+      modifiable = true
+    },
+    write_all_buffers = true,
+    on_off_commands = true,
+    clean_command_line_interval = 0,
+    debounce_delay = 135
+  }
+)

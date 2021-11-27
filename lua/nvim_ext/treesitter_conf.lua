@@ -4,17 +4,7 @@ require'nvim-treesitter.configs'.setup {
   highlight = {
     enable = true,              -- false will disable the whole extension
     disable = { "rust" },  -- list of language that will be disabled
-    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-    -- Using this option may slow down your editor, and you may see some duplicate highlights.
-    -- Instead of true it can also be a list of languages
-    additional_vim_regex_highlighting = false,
-  },
-}
-require'nvim-treesitter.configs'.setup {
-  highlight = {
-    enable = true,
-    custom_captures = {
+     custom_captures = {
       -- Highlight the @foo.bar    capture group with the "Identifier" highlight group.
       ["foo.bar"] = "Identifier",
     },
@@ -24,8 +14,6 @@ require'nvim-treesitter.configs'.setup {
     -- Instead of true it can also be a list of languages
     additional_vim_regex_highlighting = false,
   },
-}
-require'nvim-treesitter.configs'.setup {
   incremental_selection = {
     enable = true,
     keymaps = {
@@ -35,8 +23,6 @@ require'nvim-treesitter.configs'.setup {
       node_decremental = "grm",
     },
   },
-}
-require "nvim-treesitter.configs".setup {
   playground = {
     enable = true,
     disable = {},
@@ -54,30 +40,16 @@ require "nvim-treesitter.configs".setup {
       goto_node = '<cr>',
       show_help = '?',
     },
-  }
-}
-require'nvim-treesitter.configs'.setup {
+  },
   refactor = {
     highlight_definitions = { enable = true },
-  },
-}
-require'nvim-treesitter.configs'.setup {
-  refactor = {
     highlight_current_scope = { enable = true },
-  },
-}
-require'nvim-treesitter.configs'.setup {
-  refactor = {
     smart_rename = {
       enable = true,
       keymaps = {
         smart_rename = "grr",
       },
     },
-  },
-}
-require'nvim-treesitter.configs'.setup {
-refactor = {
     navigation = {
       enable = true,
       keymaps = {
@@ -90,6 +62,7 @@ refactor = {
     },
   },
 }
+
 vim.g.symbols_outline = {
     highlight_hovered_item = true,
     show_guides = true,
