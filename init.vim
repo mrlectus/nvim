@@ -16,8 +16,9 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'bfrg/vim-cpp-modern'
   Plug 'ericbn/vim-solarized'
   Plug 'folke/lsp-colors.nvim'
+  Plug 'tibabit/vim-templates'
   Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
-  Plug 'folke/trouble.nvim'
+  ""Plug 'folke/trouble.nvim'
   Plug 'folke/which-key.nvim'
   Plug 'gko/vim-coloresque'
   Plug 'glepnir/dashboard-nvim'
@@ -76,6 +77,7 @@ lua require('config')
 lua require'colorizer'.setup()
 
 """" Basic Behavior
+let g:tmpl_author_email = 'lilbrown3000@gmail.com'
 let mapleader = ","
 set termguicolors
 set clipboard+=unnamedplus
