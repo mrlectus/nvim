@@ -46,7 +46,7 @@ vim.api.nvim_exec(
 
 --- require
 require("nvim_lsp/bashls_conf")
-require("nvim_lsp/clangd_conf")
+--require("nvim_lsp/clangd_conf")
 require("nvim_lsp/cssls_conf")
 --require("nvim_lsp/ccls_conf")
 require "lspconfig".clangd.setup {}
@@ -68,7 +68,7 @@ require("nvim_ext/lspkind_conf")
 require("nvim_ext/compe_conf")
 --require("nvim_ext/cmp_conf")
 require("nvim_ext/lspsaga_conf")
-require("nvim_ext/signature_conf")
+--require("nvim_ext/signature_conf")
 require("nvim_ext/telescope_conf")
 require("nvim_ext/treesitter_conf")
 --require("nvim_ext/trouble_conf")
@@ -80,6 +80,7 @@ require("nvim_ext/dap_config")
 require "nvim-tree".setup()
 require "lspconfig".emmet_ls.setup {}
 require("which-key").setup {}
+require "lspconfig".pyre.setup {}
 lsp_status.register_progress()
 -- Go-to definition in a split window
 local function goto_definition(split_cmd)
@@ -132,7 +133,7 @@ autosave.setup(
   {
     enabled = true,
     execution_message = "AutoSave: saved at " .. vim.fn.strftime("%H:%M:%S"),
-    events = {"InsertLeave"},
+    events = {"InsertLeave", "FocusLost"},
     conditions = {
       exists = true,
       filename_is_not = {},

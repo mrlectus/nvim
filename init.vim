@@ -2,10 +2,10 @@
 set nocompatible        " disable compatibility mode with vi
 filetype off            " disable filetype detection (but re-enable later, see below)
 call plug#begin('~/.config/nvim/plugged')
+  ""Plug 'folke/trouble.nvim'
   Plug 'CurtisFenner/luafmt'
+  Plug 'jacquesg/p5-Neovim-Ext'
   Plug 'L3MON4D3/LuaSnip'
-  Plug 'voldikss/vim-floaterm'
-  Plug 'wuelnerdotexe/vim-enfocado'
   Plug 'Pocco81/AutoSave.nvim'
   Plug 'RishabhRD/nvim-lsputils'
   Plug 'RishabhRD/popfix'
@@ -16,15 +16,13 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'bfrg/vim-cpp-modern'
   Plug 'ericbn/vim-solarized'
   Plug 'folke/lsp-colors.nvim'
-  Plug 'tibabit/vim-templates'
   Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
-  ""Plug 'folke/trouble.nvim'
   Plug 'folke/which-key.nvim'
   Plug 'gko/vim-coloresque'
   Plug 'glepnir/dashboard-nvim'
   Plug 'glepnir/lspsaga.nvim'
   Plug 'honza/vim-snippets'
-  Plug 'hoob3rt/lualine.nvim'
+  Plug 'nvim-lualine/lualine.nvim'
   Plug 'hrsh7th/nvim-cmp'
   Plug 'hrsh7th/nvim-compe'
   Plug 'hrsh7th/vim-vsnip'
@@ -45,7 +43,6 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'neovim/nvim-lspconfig'
   Plug 'norcalli/nvim-colorizer.lua'
   Plug 'nvim-lua/lsp-status.nvim'
-  Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-lua/popup.nvim'
   Plug 'nvim-telescope/telescope.nvim'
@@ -69,7 +66,9 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'sudormrfbin/cheatsheet.nvim'
   Plug 'tpope/vim-sensible'
   Plug 'tzachar/compe-tabnine', { 'do': './install.sh' }
+  Plug 'voldikss/vim-floaterm'
   Plug 'windwp/nvim-autopairs'
+  Plug 'wuelnerdotexe/vim-enfocado'
 call plug#end()
 
 """" Lua config
@@ -140,7 +139,11 @@ set hlsearch            " highlight matches
 nnoremap <CR> :nohlsearch<CR><CR>
 nnoremap <silent> <S-F2> :NvimTreeToggle<CR>
 
-
+let g:python_host_prog = '/bin/python2.7'
+let g:python3_host_prog = '/bin/python3'
+let g:perl_host_prog = '/bin/perl'
+let g:node_host_prog = '/bin/neovim-node-host'
+ let g:ruby_host_prog = '/home/brown/.local/share/gem/ruby/3.0.0/bin/neovim-ruby-host'
 """" Miscellaneous settings that might be worth enabling
 highlight ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+$/
@@ -185,6 +188,33 @@ let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 let g:LanguageClient_serverCommands = {
     \ 'sh': ['bash-language-server', 'start']
     \ }
+
+"" Nvim compe
+let g:compe = {}
+let g:compe.enabled = v:true
+let g:compe.autocomplete = v:true
+let g:compe.debug = v:false
+let g:compe.min_length = 1
+let g:compe.preselect = 'enable'
+let g:compe.throttle_time = 80
+let g:compe.source_timeout = 200
+let g:compe.resolve_timeout = 800
+let g:compe.incomplete_delay = 400
+let g:compe.max_abbr_width = 100
+let g:compe.max_kind_width = 100
+let g:compe.max_menu_width = 100
+let g:compe.documentation = v:true
+
+let g:compe.source = {}
+let g:compe.source.path = v:true
+let g:compe.source.buffer = v:true
+let g:compe.source.calc = v:true
+let g:compe.source.nvim_lsp = v:true
+let g:compe.source.nvim_lua = v:true
+let g:compe.source.vsnip = v:true
+let g:compe.source.ultisnips = v:true
+let g:compe.source.luasnip = v:true
+let g:compe.source.emoji = v:true
 
 " go lsp
 augroup LspGo
@@ -294,5 +324,13 @@ nnoremap <Leader>7 :7b<CR>
 nnoremap <Leader>8 :8b<CR>
 nnoremap <Leader>9 :9b<CR>
 nnoremap <Leader>0 :10b<CR>
+
 nnoremap <silent> <Leader>+ :exe "resize " . (winheight(0) * 3/2)<CR>
 nnoremap <silent> <Leader>- :exe "resize " . (winheight(0) * 2/3)<CR>
+
+inoremap <silent><expr> <C-Space> compe#complete()
+inoremap <silent><expr> <CR>      compe#confirm(luaeval("require 'nvim-autopairs'.autopairs_cr()"))
+inoremap <silent><expr> <C-e>     compe#close('<C-e>')
+inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
+inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
+
