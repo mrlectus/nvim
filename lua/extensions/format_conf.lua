@@ -41,7 +41,6 @@ require("formatter").setup(
           }
         end
       },
-
       rust = {
         -- Rustfmt
         function()
@@ -75,9 +74,12 @@ require("formatter").setup(
       python = {
         function()
           return {
-            exe = "python-lsp-black",
-            args = {"--indent-count", 2, "--stdin"},
-            stdin = true
+            exe = "python3 -m autopep8",
+            args = {
+              "--in-place --aggressive --aggressive",
+              vim.fn.fnameescape(vim.api.nvim_buf_get_name(0))
+            },
+            stdin = false
           }
         end
       },

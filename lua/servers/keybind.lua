@@ -47,6 +47,7 @@ for _, lsp in ipairs(servers) do
     }
   }
 end
+
 vim.lsp.handlers["textDocument/codeAction"] = require "lsputil.codeAction".code_action_handler
 vim.lsp.handlers["textDocument/references"] = require "lsputil.locations".references_handler
 vim.lsp.handlers["textDocument/definition"] = require "lsputil.locations".definition_handler
@@ -58,34 +59,87 @@ vim.lsp.handlers["workspace/symbol"] = require "lsputil.symbols".workspace_handl
 local map = vim.api.nvim_set_keymap
 local opts = {noremap = true, silent = true}
 
--- Move to previous/next
-map("n", "<A-,>", ":BufferPrevious<CR>", opts)
-map("n", "<A-.>", ":BufferNext<CR>", opts)
--- Re-order to previous/next
-map("n", "<A-<>", ":BufferMovePrevious<CR>", opts)
-map("n", "<A->>", " :BufferMoveNext<CR>", opts)
--- Goto buffer in position...
-map("n", "<A-1>", ":BufferGoto 1<CR>", opts)
-map("n", "<A-2>", ":BufferGoto 2<CR>", opts)
-map("n", "<A-3>", ":BufferGoto 3<CR>", opts)
-map("n", "<A-4>", ":BufferGoto 4<CR>", opts)
-map("n", "<A-5>", ":BufferGoto 5<CR>", opts)
-map("n", "<A-6>", ":BufferGoto 6<CR>", opts)
-map("n", "<A-7>", ":BufferGoto 7<CR>", opts)
-map("n", "<A-8>", ":BufferGoto 8<CR>", opts)
-map("n", "<A-9>", ":BufferGoto 9<CR>", opts)
-map("n", "<A-0>", ":BufferLast<CR>", opts)
--- Close buffer
-map("n", "<A-c>", ":BufferClose<CR>", opts)
--- Wipeout buffer
---                 :BufferWipeout<CR>
--- Close commands
---                 :BufferCloseAllButCurrent<CR>
---                 :BufferCloseBuffersLeft<CR>
---                 :BufferCloseBuffersRight<CR>
+--source lua & vim
+--map("n", "<leader>")
+
 -- Magic buffer-picking mode
 map("n", "<C-p>", ":BufferPick<CR>", opts)
+
+-- Window movement
+map("n", "<C-h>", "<C-w>h", {silent = true})
+map("n", "<C-j>", "<C-w>j", {silent = true})
+map("n", "<C-k>", "<C-w>k", {silent = true})
+map("n", "<C-l>", "<C-w>l", {silent = true})
+
 -- Sort automatically by...
 map("n", "<Space>bb", ":BufferOrderByBufferNumber<CR>", opts)
 map("n", "<Space>bd", ":BufferOrderByDirectory<CR>", opts)
 map("n", "<Space>bl", ":BufferOrderByLanguage<CR>", opts)
+
+-- Buffer movement
+map("n", "<Leader>l", ":ls<CR>", opts)
+map("n", "<Leader>b", ":bp<CR>", opts)
+map("n", "<Leader>f", ":bn<CR>", opts)
+map("n", "<Leader>g", ":e#<CR>", opts)
+map("n", "<Leader>1", ":1b<CR>", opts)
+map("n", "<Leader>2", ":2b<CR>", opts)
+map("n", "<Leader>3", ":3b<CR>", opts)
+map("n", "<Leader>4", ":4b<CR>", opts)
+map("n", "<Leader>5", ":5b<CR>", opts)
+map("n", "<Leader>6", ":6b<CR>", opts)
+map("n", "<Leader>7", ":7b<CR>", opts)
+map("n", "<Leader>8", ":8b<CR>", opts)
+map("n", "<Leader>9", ":9b<CR>", opts)
+map("n", "<Leader>0", ":10b<CR>", opts)
+
+-- Resize Buffer
+map("n", "<Leader>+", ':exe "resize " . (winheight(0) * 3/2)<CR>', opts)
+map("n", "<Leader>-", ':exe "resize " . (winheight(0) * 2/3)<CR>', opts)
+
+-- Telescope 🔭
+map("n", "<leader>ff", ":Telescope find_files<CR>", opts)
+map("n", "<leader>fg", ":Telescope live_grep<CR>", opts)
+map("n", "<leader>fb", ":Telescope buffers<CR>", opts)
+map("n", "<leader>fh", ":Telescope help_tags<CR>", opts)
+
+-- move vertically by visual line (don't skip wrapped lines)
+map("v", "j", "gj", {silent = true})
+map("v", "k", "gk", {silent = true})
+
+-- Floating stuff
+map("n", "<leader>t", ":FloatermToggle<CR>", opts)
+map("n", "<leader>t", "<Esc>:FloatermToggle<CR>", opts)
+map("t", "<leader>t", "<C-\\><C-n>:FloatermToggle<CR>", opts)
+
+-- turn off search highlighting with <CR> (carriage-return)
+map("n", "<CR>", ":nohlsearch<CR><CR>", opts)
+map("n", "<S-F1>", ":NvimTreeToggle<CR>", opts)
+
+-- nvim compe keybindings +
+vim.cmd [[
+  inoremap <silent><expr> <C-Space> compe#complete()
+  inoremap <silent><expr> <CR>      compe#confirm('<CR>')
+  inoremap <silent><expr> <C-e>     compe#close('<C-e>')
+  inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
+  inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
+
+  inoremap <silent><expr> <C-Space> compe#complete()
+  inoremap <silent><expr> <CR>      compe#confirm(luaeval("require 'nvim-autopairs'.autopairs_cr()"))
+  inoremap <silent><expr> <C-e>     compe#close('<C-e>')
+  inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
+  inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
+
+  imap <expr><C-l> vsnip#available(1)    ? '<Plug>(vsnip-expand)'         : '<C-l>'
+  smap <expr><C-l> vsnip#available(1)    ? '<Plug>(vsnip-expand)'         : '<C-l>'
+  imap <expr><Tab> vsnip#available(1)    ? '<Plug>(vsnip-expand-or-jump)' : '<Tab>'
+  smap <expr><Tab> vsnip#jumpable(1)     ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+  imap <expr><S-Tab> vsnip#available(-1) ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+  smap <expr><S-Tab> vsnip#available(-1) ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+]]
+
+-- formating
+map("n", "ff", "vim.lsp.buf.formatting()<CR>", opts)
+map("n", "<leader>f", ":Format<CR>", opts)
+vim.cmd [[
+  autocmd BufWritePre *.go lua vim.lsp.buf.formatting()
+]]
