@@ -33,7 +33,6 @@ local on_attach = function(client, bufnr)
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
@@ -114,28 +113,6 @@ map("t", "<leader>t", "<C-\\><C-n>:FloatermToggle<CR>", opts)
 -- turn off search highlighting with <CR> (carriage-return)
 map("n", "<CR>", ":nohlsearch<CR><CR>", opts)
 map("n", "<S-F1>", ":NvimTreeToggle<CR>", opts)
-
--- nvim compe keybindings +
-vim.cmd [[
-  inoremap <silent><expr> <C-Space> compe#complete()
-  inoremap <silent><expr> <CR>      compe#confirm('<CR>')
-  inoremap <silent><expr> <C-e>     compe#close('<C-e>')
-  inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
-  inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
-
-  inoremap <silent><expr> <C-Space> compe#complete()
-  inoremap <silent><expr> <CR>      compe#confirm(luaeval("require 'nvim-autopairs'.autopairs_cr()"))
-  inoremap <silent><expr> <C-e>     compe#close('<C-e>')
-  inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
-  inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
-
-  imap <expr><C-l> vsnip#available(1)    ? '<Plug>(vsnip-expand)'         : '<C-l>'
-  smap <expr><C-l> vsnip#available(1)    ? '<Plug>(vsnip-expand)'         : '<C-l>'
-  imap <expr><Tab> vsnip#available(1)    ? '<Plug>(vsnip-expand-or-jump)' : '<Tab>'
-  smap <expr><Tab> vsnip#jumpable(1)     ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
-  imap <expr><S-Tab> vsnip#available(-1) ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
-  smap <expr><S-Tab> vsnip#available(-1) ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
-]]
 
 -- formating
 map("n", "ff", "vim.lsp.buf.formatting()<CR>", opts)

@@ -1,55 +1,79 @@
-vim.o.completeopt = "menu,menuone,noselect"
+local cmp = require "cmp"
+local lspkind = require "lspkind"
+local luasnip = require "luasnip"
 
-local has_words_before = function()
-    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+local function check_backspace()
+  local col = vim.fn.col "." - 1
+  return col == 0 or vim.fn.getline("."):sub(col, col):match "%s" ~= nil
 end
 
-local feedkey = function(key, mode)
-    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
-end
-local cmp = require 'cmp'
-local lspkind = require('lspkind')
+local feedkeys = vim.fn.feedkeys
+local pumvisible = vim.fn.pumvisible
+local replace_termcodes = vim.api.nvim_replace_termcodes
+local next_item_keys = replace_termcodes("<c-n>", true, true, true)
+local prev_item_keys = replace_termcodes("<c-p>", true, true, true)
+local backspace_keys = replace_termcodes("<tab>", true, true, true)
+local snippet_next_keys = replace_termcodes("<plug>luasnip-expand-or-jump", true, true, true)
+local snippet_prev_keys = replace_termcodes("<plug>luasnip-jump-prev", true, true, true)
 
-cmp.setup({
-    snippet = {
-        expand = function(args)
-            vim.fn["vsnip#anonymous"](args.body)
+cmp.setup {
+  completion = {completeopt = "menu,menuone,noinsert"},
+  snippet = {
+    expand = function(args)
+      vim.fn["vsnip#anonymous"](args.body)
+      luasnip.lsp_expand(args.body)
+      vim.fn["UltiSnips#Anon"](args.body)
+    end
+  },
+  formatting = {
+    format = function(_, vim_item)
+      vim_item.kind = lspkind.presets.default[vim_item.kind] .. " " .. vim_item.kind
+      return vim_item
+    end
+  },
+  mapping = {
+    ["<cr>"] = cmp.mapping.confirm(),
+    ["<tab>"] = cmp.mapping(
+      function(fallback)
+        if pumvisible() == 1 then
+          feedkeys(next_item_keys, "n")
+        elseif luasnip.expand_or_jumpable() then
+          feedkeys(snippet_next_keys, "")
+        elseif check_backspace() then
+          feedkeys(backspace_keys, "n")
+        else
+          fallback()
         end
-    },
-    formatting = {
-        format = lspkind.cmp_format({
-            with_text = true,
-            maxwidth = 50,
-            menu = {buffer = "[Buf]", cmp_tabnine = "[Tabnine]", nvim_lsp = "[LSP]", dictionary = "[Dict]", vsnip = "[Vsnip]"}
-        })
-    },
-    mapping = {
-        ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-        ['<C-f>'] = cmp.mapping.scroll_docs(4),
-        ['<C-o>'] = cmp.mapping.complete(),
-        ['<C-e>'] = cmp.mapping.close(),
-        ['<CR>'] = cmp.mapping.confirm({select = true}),
-        ["<Tab>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-                cmp.select_next_item()
-            elseif vim.fn["vsnip#available"]() == 1 then
-                feedkey("<Plug>(vsnip-expand-or-jump)", "")
-            elseif has_words_before() then
-                cmp.complete()
-            else
-                fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
-            end
-        end, {"i", "s"}),
-
-        ["<S-Tab>"] = cmp.mapping(function()
-            if cmp.visible() then
-                cmp.select_prev_item()
-            elseif vim.fn["vsnip#jumpable"](-1) == 1 then
-                feedkey("<Plug>(vsnip-jump-prev)", "")
-            end
-        end, {"i", "s"})
-    },
-})
-
-vim.cmd("autocmd FileType TelescopePrompt lua require('cmp').setup.buffer { enabled = false }")
+      end,
+      {
+        "i",
+        "s"
+      }
+    )
+  },
+  ["<s-tab>"] = cmp.mapping(
+    function(fallback)
+      if pumvisible() == 1 then
+        feedkeys(prev_item_keys, "n")
+      elseif luasnip.jumpable(-1) then
+        feedkeys(snippet_prev_keys, "")
+      else
+        fallback()
+      end
+    end,
+    {
+      "i",
+      "s"
+    }
+  ),
+  sources = {
+    {name = "buffer"},
+    {name = "nvim_lsp"},
+    {name = "nvim_lua"},
+    {name = "path"},
+    {name = "luasnip"},
+    {name = "utilsnip"},
+    {name = "vsnip"},
+    {name = "emoji"}
+  }
+}
