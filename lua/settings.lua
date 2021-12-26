@@ -21,8 +21,7 @@ vim.cmd [[
   let g:LanguageClient_serverCommands = {
     \ 'sh': ['bash-language-server', 'start']
     \ }
-]]
-
+]] "./plugins.lua"
 -- Set map leader
 vim.g.mapleader = ","
 
@@ -114,36 +113,39 @@ vim.api.nvim_exec(
 )
 
 --- require
-require("servers/bashls_conf")
---require("servers/clangd_conf")
-require("servers/cssls_conf")
---require("servers/ccls_conf")
+require("servers..bashls")
+--require("servers..clangd")
+require("servers..cssls")
+--require("servers..ccls")
 require "lspconfig".clangd.setup {}
-require("servers/gopls_conf")
-require("servers/html_conf")
-require("servers/phpactor_conf")
-require("servers/pylsp_conf")
-require("servers/rust_analyzer_conf")
-require("servers/sqls_conf")
-require("servers/texlab_conf")
-require("servers/tsserver_conf")
-require("extensions/barbar_conf")
-require("extensions/cheatsheet_conf")
-require("extensions/colors_conf")
-require("extensions/autopair_conf")
-require("extensions/devicons_conf")
-require("extensions/evil_lualine_conf")
-require("extensions/lspkind_conf")
---require("extensions/compe_conf")
+require("servers..gopls")
+require("servers..html")
+require("servers..sumneco")
+require("servers..phpactor")
+require("servers..pylsp")
+require("servers..rust_analyzer")
+require("servers..sqls")
+require("servers..texlab")
+require("servers..lspinstall")
+require("servers..tsserver")
+require("config..barbar")
+require("config..luasnip")
+require("config..cheatsheet")
+require("config..colors")
+require("config..autopair")
+require("config..devicons")
+require("config..evil_lualine")
+require("config..lspkind")
+--require("config.compe")
 require "colorizer".setup()
-require("extensions/cmp_conf")
-require("extensions/telescope_conf")
-require("extensions/treesitter_conf")
-require("servers/keybind")
-require("extensions/gitsign_conf")
-require("extensions/luasnip_conf")
-require("extensions/format_conf")
-require("extensions/dap_config")
+require("config..cmp")
+require("config..telescope")
+require("config..treesitter")
+require("servers..keybind")
+require("config..gitsign")
+require("config..luasnip")
+require("config..format")
+require("config..dap")
 require "nvim-tree".setup()
 require "lspconfig".emmet_ls.setup {}
 require("which-key").setup {}

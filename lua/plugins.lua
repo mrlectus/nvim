@@ -20,7 +20,10 @@ return require("packer").startup(
     use "RishabhRD/nvim-lsputils"
     use "RishabhRD/popfix"
     use "SirVer/ultisnips"
-    use "anott03/nvim-lspinstall"
+    use {
+      "neovim/nvim-lspconfig",
+      "williamboman/nvim-lsp-installer"
+    }
     use "b3nj5m1n/kommentary"
     use "bfrg/vim-cpp-modern"
     use "folke/lsp-colors.nvim"
@@ -47,7 +50,6 @@ return require("packer").startup(
     use "nanotee/sqls.nvim"
     use "natebosch/vim-lsc"
     use "neovim/nvim-lsp"
-    use "neovim/nvim-lspconfig"
     use {
       "norcalli/nvim-colorizer.lua",
       ft = {"css", "javascript", "vim", "html"}
@@ -81,16 +83,23 @@ return require("packer").startup(
     use "wuelnerdotexe/vim-enfocado"
     use {
       "hrsh7th/nvim-cmp",
+      event = "InsertEnter",
+      wants = {"LuaSnip"},
       requires = {
-        "L3MON4D3/LuaSnip",
-        {"hrsh7th/cmp-buffer", after = "nvim-cmp"},
-        "hrsh7th/cmp-nvim-lsp",
-        {"hrsh7th/cmp-path", after = "nvim-cmp"},
-        {"hrsh7th/cmp-nvim-lua", after = "nvim-cmp"},
-        {"saadparwaiz1/cmp_luasnip", after = "nvim-cmp"}
-      },
-      event = "InsertEnter *"
+        {
+          "L3MON4D3/LuaSnip",
+          wants = "friendly-snippets"
+        },
+        "rafamadriz/friendly-snippets",
+        {
+          "windwp/nvim-autopairs"
+        }
+      }
     }
+    use {"hrsh7th/cmp-path", after = "nvim-cmp"}
+    use {"hrsh7th/cmp-buffer", after = "nvim-cmp"}
+    use {"hrsh7th/cmp-nvim-lsp", after = "nvim-cmp"}
+    use {"abzcoding/cmp_luasnip", after = "nvim-cmp"}
     -- Debugger
     use {
       {

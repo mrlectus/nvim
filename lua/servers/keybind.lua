@@ -120,3 +120,7 @@ map("n", "<leader>f", ":Format<CR>", opts)
 vim.cmd [[
   autocmd BufWritePre *.go lua vim.lsp.buf.formatting()
 ]]
+
+-- Jumping
+map("n", "jj", "<C-6>", opts)
+map("n", "gb", "<C-o>", opts)
