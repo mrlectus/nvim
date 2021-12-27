@@ -6,9 +6,10 @@ vim.cmd [[
     packadd nvim-colorizer.lua
     packadd nvim-dap-ui
     packadd nvim-dap
+    packadd cmp-nvim-lsp
 ]]
 return require("packer").startup(
-  function()
+  function(use)
     -- Packer can manage itself
     use "wbthomason/packer.nvim"
     use "CurtisFenner/luafmt"
@@ -19,7 +20,17 @@ return require("packer").startup(
     use "Pocco81/AutoSave.nvim"
     use "RishabhRD/nvim-lsputils"
     use "RishabhRD/popfix"
-    use "SirVer/ultisnips"
+    use {
+      "SirVer/ultisnips",
+      requires = {{"honza/vim-snippets", rtp = "."}},
+      config = function()
+        vim.g.UltiSnipsExpandTrigger = "<Plug>(ultisnips_expand)"
+        vim.g.UltiSnipsJumpForwardTrigger = "<Plug>(ultisnips_jump_forward)"
+        vim.g.UltiSnipsJumpBackwardTrigger = "<Plug>(ultisnips_jump_backward)"
+        vim.g.UltiSnipsListSnippets = "<c-x><c-s>"
+        vim.g.UltiSnipsRemoveSelectModeMappings = 0
+      end
+    }
     use {
       "neovim/nvim-lspconfig",
       "williamboman/nvim-lsp-installer"
@@ -77,13 +88,16 @@ return require("packer").startup(
     use "simrat39/symbols-outline.nvim"
     use "sudormrfbin/cheatsheet.nvim"
     use "tpope/vim-sensible"
-    use {"tzachar/compe-tabnine", run = "./install.sh"}
+    use {
+      "ray-x/lsp_signature.nvim"
+    }
+    use {"tzachar/cmp-tabnine", run = "./install.sh", requires = "hrsh7th/nvim-cmp"}
     use "voldikss/vim-floaterm"
     use "windwp/nvim-autopairs"
     use "wuelnerdotexe/vim-enfocado"
     use {
       "hrsh7th/nvim-cmp",
-      event = "InsertEnter",
+      event = "InsertEnter *",
       wants = {"LuaSnip"},
       requires = {
         {
@@ -100,6 +114,11 @@ return require("packer").startup(
     use {"hrsh7th/cmp-buffer", after = "nvim-cmp"}
     use {"hrsh7th/cmp-nvim-lsp", after = "nvim-cmp"}
     use {"abzcoding/cmp_luasnip", after = "nvim-cmp"}
+    use {"hrsh7th/cmp-nvim-lua", after = "nvim-cmp"}
+    use {"hrsh7th/cmp-emoji", after = "nvim-cmp"}
+    use {"hrsh7th/cmp-calc", after = "nvim-cmp"}
+    use {"hrsh7th/cmp-omni", after = "nvim-cmp"}
+
     -- Debugger
     use {
       {

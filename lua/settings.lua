@@ -14,14 +14,13 @@ vim.api.nvim_set_option("termguicolors", true)
 
 vim.cmd [[
   colorscheme onedark    
-  syntax enable
   filetype plugin indent on
   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
   let g:LanguageClient_serverCommands = {
     \ 'sh': ['bash-language-server', 'start']
     \ }
-]] "./plugins.lua"
+]]
 -- Set map leader
 vim.g.mapleader = ","
 
@@ -48,7 +47,7 @@ set.updatetime = 250
 vim.wo.signcolumn = "yes"
 
 set.clipboard:prepend {"unnamedplus"}
-set.completeopt:prepend("menu,menuone,noselect,noinsert")
+set.completeopt:prepend("menuone,noselect")
 
 set.list = true
 set.number = true --show line numbers
@@ -113,11 +112,10 @@ vim.api.nvim_exec(
 )
 
 --- require
+require("servers..keybind")
 require("servers..bashls")
---require("servers..clangd")
 require("servers..cssls")
---require("servers..ccls")
-require "lspconfig".clangd.setup {}
+require("servers..ccls")
 require("servers..gopls")
 require("servers..html")
 require("servers..sumneco")
@@ -137,19 +135,26 @@ require("config..devicons")
 require("config..evil_lualine")
 require("config..lspkind")
 --require("config.compe")
-require "colorizer".setup()
 require("config..cmp")
 require("config..telescope")
 require("config..treesitter")
-require("servers..keybind")
 require("config..gitsign")
 require("config..luasnip")
 require("config..format")
 require("config..dap")
 require "nvim-tree".setup()
+require "colorizer".setup()
 require "lspconfig".emmet_ls.setup {}
 require("which-key").setup {}
 require "lspconfig".pyre.setup {}
+require("lsp_signature").setup(
+  {
+    floating_window = false,
+    hint_enable = true, -- virtual hint enable
+    hint_prefix = "🐼 ", -- Panda for parameter
+    hint_scheme = "String"
+  }
+)
 lsp_status.register_progress()
 -- Go-to definition in a split window
 local function goto_definition(split_cmd)

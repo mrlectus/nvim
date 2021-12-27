@@ -1,5 +1,4 @@
 USER = vim.fn.expand("$USER")
-print(USER)
 local sumneko_root_path = "/home/" .. USER .. "/.local/share/nvim/site/pack/packer/start/lua-language-server/"
 local sumneko_binary =
   "/home/" .. USER .. "/.local/share/nvim/site/pack/packer/start/lua-language-server/bin/lua-language-server"

@@ -1,12 +1,12 @@
-local lspconfig = require'lspconfig'
+local lspconfig = require "lspconfig"
 lspconfig.ccls.setup {
   init_options = {
-    compilationDatabaseDirectory = "build";
+    compilationDatabaseDirectory = "build",
     index = {
-      threads = 0;
-    };
+      threads = 4
+    },
     clang = {
-      excludeArgs = { "-frounding-math"} ;
-    };
+      excludeArgs = {"-frounding-math"}
+    }
   }
 }

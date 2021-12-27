@@ -114,6 +114,26 @@ _G.packer_plugins = {
     path = "/home/brown/.local/share/nvim/site/pack/packer/opt/cmp-buffer",
     url = "https://github.com/hrsh7th/cmp-buffer"
   },
+  ["cmp-calc"] = {
+    after_files = { "/home/brown/.local/share/nvim/site/pack/packer/opt/cmp-calc/after/plugin/cmp_calc.lua" },
+    load_after = {
+      ["nvim-cmp"] = true
+    },
+    loaded = false,
+    needs_bufread = false,
+    path = "/home/brown/.local/share/nvim/site/pack/packer/opt/cmp-calc",
+    url = "https://github.com/hrsh7th/cmp-calc"
+  },
+  ["cmp-emoji"] = {
+    after_files = { "/home/brown/.local/share/nvim/site/pack/packer/opt/cmp-emoji/after/plugin/cmp_emoji.lua" },
+    load_after = {
+      ["nvim-cmp"] = true
+    },
+    loaded = false,
+    needs_bufread = false,
+    path = "/home/brown/.local/share/nvim/site/pack/packer/opt/cmp-emoji",
+    url = "https://github.com/hrsh7th/cmp-emoji"
+  },
   ["cmp-nvim-lsp"] = {
     after_files = { "/home/brown/.local/share/nvim/site/pack/packer/opt/cmp-nvim-lsp/after/plugin/cmp_nvim_lsp.lua" },
     load_after = {
@@ -123,6 +143,26 @@ _G.packer_plugins = {
     needs_bufread = false,
     path = "/home/brown/.local/share/nvim/site/pack/packer/opt/cmp-nvim-lsp",
     url = "https://github.com/hrsh7th/cmp-nvim-lsp"
+  },
+  ["cmp-nvim-lua"] = {
+    after_files = { "/home/brown/.local/share/nvim/site/pack/packer/opt/cmp-nvim-lua/after/plugin/cmp_nvim_lua.lua" },
+    load_after = {
+      ["nvim-cmp"] = true
+    },
+    loaded = false,
+    needs_bufread = false,
+    path = "/home/brown/.local/share/nvim/site/pack/packer/opt/cmp-nvim-lua",
+    url = "https://github.com/hrsh7th/cmp-nvim-lua"
+  },
+  ["cmp-omni"] = {
+    after_files = { "/home/brown/.local/share/nvim/site/pack/packer/opt/cmp-omni/after/plugin/cmp_omni.lua" },
+    load_after = {
+      ["nvim-cmp"] = true
+    },
+    loaded = false,
+    needs_bufread = false,
+    path = "/home/brown/.local/share/nvim/site/pack/packer/opt/cmp-omni",
+    url = "https://github.com/hrsh7th/cmp-omni"
   },
   ["cmp-path"] = {
     after_files = { "/home/brown/.local/share/nvim/site/pack/packer/opt/cmp-path/after/plugin/cmp_path.lua" },
@@ -134,6 +174,11 @@ _G.packer_plugins = {
     path = "/home/brown/.local/share/nvim/site/pack/packer/opt/cmp-path",
     url = "https://github.com/hrsh7th/cmp-path"
   },
+  ["cmp-tabnine"] = {
+    loaded = true,
+    path = "/home/brown/.local/share/nvim/site/pack/packer/start/cmp-tabnine",
+    url = "https://github.com/tzachar/cmp-tabnine"
+  },
   cmp_luasnip = {
     after_files = { "/home/brown/.local/share/nvim/site/pack/packer/opt/cmp_luasnip/after/plugin/cmp_luasnip.lua" },
     load_after = {
@@ -143,11 +188,6 @@ _G.packer_plugins = {
     needs_bufread = false,
     path = "/home/brown/.local/share/nvim/site/pack/packer/opt/cmp_luasnip",
     url = "https://github.com/abzcoding/cmp_luasnip"
-  },
-  ["compe-tabnine"] = {
-    loaded = true,
-    path = "/home/brown/.local/share/nvim/site/pack/packer/start/compe-tabnine",
-    url = "https://github.com/tzachar/compe-tabnine"
   },
   ["dashboard-nvim"] = {
     loaded = true,
@@ -199,6 +239,11 @@ _G.packer_plugins = {
     path = "/home/brown/.local/share/nvim/site/pack/packer/start/lsp-status.nvim",
     url = "https://github.com/nvim-lua/lsp-status.nvim"
   },
+  ["lsp_signature.nvim"] = {
+    loaded = true,
+    path = "/home/brown/.local/share/nvim/site/pack/packer/start/lsp_signature.nvim",
+    url = "https://github.com/ray-x/lsp_signature.nvim"
+  },
   ["lspkind-nvim"] = {
     loaded = true,
     path = "/home/brown/.local/share/nvim/site/pack/packer/start/lspkind-nvim",
@@ -220,7 +265,7 @@ _G.packer_plugins = {
     url = "https://github.com/windwp/nvim-autopairs"
   },
   ["nvim-cmp"] = {
-    after = { "cmp-nvim-lsp", "cmp-path", "cmp_luasnip", "cmp-buffer" },
+    after = { "cmp_luasnip", "cmp-calc", "cmp-nvim-lsp", "cmp-path", "cmp-buffer", "cmp-omni", "cmp-emoji", "cmp-nvim-lua" },
     loaded = false,
     needs_bufread = false,
     only_cond = false,
@@ -378,6 +423,7 @@ _G.packer_plugins = {
     url = "https://github.com/nvim-telescope/telescope.nvim"
   },
   ultisnips = {
+    config = { "\27LJ\1\2Ì\2\0\0\2\0\v\0\0214\0\0\0007\0\1\0%\1\3\0:\1\2\0004\0\0\0007\0\1\0%\1\5\0:\1\4\0004\0\0\0007\0\1\0%\1\a\0:\1\6\0004\0\0\0007\0\1\0%\1\t\0:\1\b\0004\0\0\0007\0\1\0'\1\0\0:\1\n\0G\0\1\0&UltiSnipsRemoveSelectModeMappings\15<c-x><c-s>\26UltiSnipsListSnippets$<Plug>(ultisnips_jump_backward)!UltiSnipsJumpBackwardTrigger#<Plug>(ultisnips_jump_forward) UltiSnipsJumpForwardTrigger\29<Plug>(ultisnips_expand)\27UltiSnipsExpandTrigger\6g\bvim\0" },
     loaded = true,
     path = "/home/brown/.local/share/nvim/site/pack/packer/start/ultisnips",
     url = "https://github.com/SirVer/ultisnips"
@@ -468,6 +514,10 @@ if not vim.g.packer_custom_loader_enabled then
   vim.g.packer_custom_loader_enabled = true
 end
 
+-- Config for: ultisnips
+time([[Config for ultisnips]], true)
+try_loadstring("\27LJ\1\2Ì\2\0\0\2\0\v\0\0214\0\0\0007\0\1\0%\1\3\0:\1\2\0004\0\0\0007\0\1\0%\1\5\0:\1\4\0004\0\0\0007\0\1\0%\1\a\0:\1\6\0004\0\0\0007\0\1\0%\1\t\0:\1\b\0004\0\0\0007\0\1\0'\1\0\0:\1\n\0G\0\1\0&UltiSnipsRemoveSelectModeMappings\15<c-x><c-s>\26UltiSnipsListSnippets$<Plug>(ultisnips_jump_backward)!UltiSnipsJumpBackwardTrigger#<Plug>(ultisnips_jump_forward) UltiSnipsJumpForwardTrigger\29<Plug>(ultisnips_expand)\27UltiSnipsExpandTrigger\6g\bvim\0", "config", "ultisnips")
+time([[Config for ultisnips]], false)
 vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Filetype lazy-loads
