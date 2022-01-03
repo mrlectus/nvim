@@ -229,6 +229,11 @@ _G.packer_plugins = {
     path = "/home/brown/.local/share/nvim/site/pack/packer/start/kommentary",
     url = "https://github.com/b3nj5m1n/kommentary"
   },
+  ["kotlin-vim"] = {
+    loaded = true,
+    path = "/home/brown/.local/share/nvim/site/pack/packer/start/kotlin-vim",
+    url = "https://github.com/udalov/kotlin-vim"
+  },
   ["lsp-colors.nvim"] = {
     loaded = true,
     path = "/home/brown/.local/share/nvim/site/pack/packer/start/lsp-colors.nvim",
@@ -265,7 +270,7 @@ _G.packer_plugins = {
     url = "https://github.com/windwp/nvim-autopairs"
   },
   ["nvim-cmp"] = {
-    after = { "cmp_luasnip", "cmp-calc", "cmp-nvim-lsp", "cmp-path", "cmp-buffer", "cmp-omni", "cmp-emoji", "cmp-nvim-lua" },
+    after = { "cmp-emoji", "cmp-buffer", "cmp_luasnip", "cmp-calc", "cmp-nvim-lsp", "cmp-path", "cmp-omni", "cmp-nvim-lua" },
     loaded = false,
     needs_bufread = false,
     only_cond = false,
@@ -529,7 +534,7 @@ vim.cmd [[au FileType vim ++once lua require("packer.load")({'nvim-colorizer.lua
 time([[Defining lazy-load filetype autocommands]], false)
   -- Event lazy-loads
 time([[Defining lazy-load event autocommands]], true)
-vim.cmd [[au InsertEnter * ++once lua require("packer.load")({'nvim-cmp', 'nvim-compe'}, { event = "InsertEnter *" }, _G.packer_plugins)]]
+vim.cmd [[au InsertEnter * ++once lua require("packer.load")({'nvim-compe', 'nvim-cmp'}, { event = "InsertEnter *" }, _G.packer_plugins)]]
 time([[Defining lazy-load event autocommands]], false)
 vim.cmd("augroup END")
 if should_profile then save_profiles() end

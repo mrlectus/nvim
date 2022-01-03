@@ -33,7 +33,7 @@ local cmp = require "cmp"
 
 cmp.setup {
   insert = true,
-  completion = {completeopt = "menu,menuone,noinsert"},
+  completion = {completeopt = "menu,menuone,noinsert,noselect"},
   snippet = {
     expand = function(args)
       vim.fn["UltiSnips#Anon"](args.body)
@@ -48,7 +48,7 @@ cmp.setup {
     end
   },
   mapping = {
-    ["<Leader>nn"] = cmp.mapping(
+    ["<Tab>"] = cmp.mapping(
       {
         c = function()
           if cmp.visible() then
@@ -201,6 +201,7 @@ cmp.setup {
     ghost_text = true
   }
 }
+
 cmp.setup.cmdline(
   "/",
   {

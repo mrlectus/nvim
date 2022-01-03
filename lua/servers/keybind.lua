@@ -39,7 +39,19 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = {"tsserver", "ccls", "html", "cssls", "phpactor", "gopls", "rust_analyzer", "pylsp"}
+local servers = {
+  "tsserver",
+  "ccls",
+  "texlab",
+  "html",
+  "cssls",
+  "phpactor",
+  "gopls",
+  "rust_analyzer",
+  "pylsp",
+  "kotlin_language_server",
+  "jdtls"
+}
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,
@@ -79,20 +91,20 @@ map("n", "<Space>bd", ":BufferOrderByDirectory<CR>", opts)
 map("n", "<Space>bl", ":BufferOrderByLanguage<CR>", opts)
 
 -- Buffer movement
-map("n", "<Leader>l", ":ls<CR>", opts)
-map("n", "<Leader>b", ":bp<CR>", opts)
-map("n", "<Leader>f", ":bn<CR>", opts)
-map("n", "<Leader>g", ":e#<CR>", opts)
-map("n", "<Leader>1", ":1b<CR>", opts)
-map("n", "<Leader>2", ":2b<CR>", opts)
-map("n", "<Leader>3", ":3b<CR>", opts)
-map("n", "<Leader>4", ":4b<CR>", opts)
-map("n", "<Leader>5", ":5b<CR>", opts)
-map("n", "<Leader>6", ":6b<CR>", opts)
-map("n", "<Leader>7", ":7b<CR>", opts)
-map("n", "<Leader>8", ":8b<CR>", opts)
-map("n", "<Leader>9", ":9b<CR>", opts)
-map("n", "<Leader>0", ":10b<CR>", opts)
+map("n", "<leader>l", ":ls<CR>", opts)
+map("n", "<leader>b", ":bp<CR>", opts)
+map("n", "<leader>n", ":bn<CR>", opts)
+map("n", "<leader>g", ":e#<CR>", opts)
+map("n", "<leader>1", ":1b<CR>", opts)
+map("n", "<leader>2", ":2b<CR>", opts)
+map("n", "<leader>3", ":3b<CR>", opts)
+map("n", "<leader>4", ":4b<CR>", opts)
+map("n", "<leader>5", ":5b<CR>", opts)
+map("n", "<leader>6", ":6b<CR>", opts)
+map("n", "<leader>7", ":7b<CR>", opts)
+map("n", "<leader>8", ":8b<CR>", opts)
+map("n", "<leader>9", ":9b<CR>", opts)
+map("n", "<leader>0", ":10b<CR>", opts)
 
 -- Resize Buffer
 map("n", "<Leader>+", ':exe "resize " . (winheight(0) * 3/2)<CR>', opts)
@@ -108,7 +120,7 @@ map("n", "<leader>fh", ":Telescope help_tags<CR>", opts)
 map("v", "j", "gj", {silent = true})
 map("v", "k", "gk", {silent = true})
 
--- Floating stuff
+-- Floating stuffnnn
 map("n", "<leader>t", ":FloatermToggle<CR>", opts)
 map("n", "<leader>t", "<Esc>:FloatermToggle<CR>", opts)
 map("t", "<leader>t", "<C-\\><C-n>:FloatermToggle<CR>", opts)
@@ -118,10 +130,20 @@ map("n", "<CR>", ":nohlsearch<CR><CR>", opts)
 map("n", "<S-F1>", ":NvimTreeToggle<CR>", opts)
 
 -- formating
-map("n", "ff", "vim.lsp.buf.formatting()<CR>", opts)
-map("n", "<leader>f", ":Format<CR>", opts)
+--map("n", "ff", "vim.lsp.buf.formatting()<CR>", opts)
+--map("n", "<leader>s", "vim.lsp.buf.formatting()<CR>", opts)
 vim.cmd [[
-  autocmd BufWritePre *.go lua vim.lsp.buf.formatting()
+  autocmd BufWritePre *.cpp lua vim.lsp.buf.formatting_sync()
+  autocmd BufWritePre *.h lua vim.lsp.buf.formatting_sync()
+  autocmd BufWritePre *.css lua vim.lsp.buf.formatting_sync()
+  autocmd BufWritePre *.html lua vim.lsp.buf.formatting_sync()
+  autocmd BufWritePre *.java lua vim.lsp.buf.formatting_sync()
+  autocmd BufWritePre *.lua lua vim.lsp.buf.formatting_sync()
+  autocmd BufWritePre *.scss lua vim.lsp.buf.formatting_sync()
+  autocmd BufWritePre *.php lua vim.lsp.buf.formatting_sync()
+  autocmd BufWritePre *.kts lua vim.lsp.buf.formatting_sync()
+  autocmd BufWritePre *.kt lua vim.lsp.buf.formatting_sync()
+  autocmd BufWritePre *.py lua vim.lsp.buf.formatting_sync()
 ]]
 
 -- Jumping

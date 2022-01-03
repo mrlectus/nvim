@@ -47,7 +47,7 @@ set.updatetime = 250
 vim.wo.signcolumn = "yes"
 
 set.clipboard:prepend {"unnamedplus"}
-set.completeopt:prepend("menuone,noselect")
+set.completeopt:prepend("menuone,noselect,noinsert")
 
 set.list = true
 set.number = true --show line numbers
@@ -127,6 +127,8 @@ require("servers..texlab")
 require("servers..lspinstall")
 require("servers..tsserver")
 require("config..barbar")
+require("servers..javals")
+require("servers..kotlinls")
 require("config..luasnip")
 require("config..cheatsheet")
 require("config..colors")
@@ -134,13 +136,14 @@ require("config..autopair")
 require("config..devicons")
 require("config..evil_lualine")
 require("config..lspkind")
+require("config..dap")
 --require("config.compe")
 require("config..cmp")
 require("config..telescope")
 require("config..treesitter")
 require("config..gitsign")
 require("config..luasnip")
-require("config..format")
+--require("config..format")
 require("config..dap")
 require "nvim-tree".setup()
 require "colorizer".setup()
@@ -200,15 +203,17 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] =
     }
   }
 )
+
 require("lualine").setup {options = {theme = "onedark"}}
 --require("lualine").setup {options = {theme = "enfocado"}}
+
 local autosave = require("autosave")
 
 autosave.setup(
   {
     enabled = true,
     execution_message = "AutoSave: saved at " .. vim.fn.strftime("%H:%M:%S"),
-    events = {"InsertLeave", "FocusLost"},
+    events = {"InsertLeave"},
     conditions = {
       exists = true,
       filename_is_not = {},

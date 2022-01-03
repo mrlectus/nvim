@@ -79,7 +79,7 @@ return require("packer").startup(
     }
     use "nvim-treesitter/playground"
     use "onsails/lspkind-nvim"
-    use {"ray-x/guihua.lua", run = "cd lua/fzy && make"}
+    use "udalov/kotlin-vim"
     use "robert-oleynik/clangd-nvim"
     use "romgrk/barbar.nvim"
     use "ryanoasis/vim-devicons"
@@ -88,13 +88,14 @@ return require("packer").startup(
     use "simrat39/symbols-outline.nvim"
     use "sudormrfbin/cheatsheet.nvim"
     use "tpope/vim-sensible"
+    use {"ray-x/guihua.lua", run = "cd lua/fzy && make"}
     use {
       "ray-x/lsp_signature.nvim"
     }
-    use {"tzachar/cmp-tabnine", run = "./install.sh", requires = "hrsh7th/nvim-cmp"}
     use "voldikss/vim-floaterm"
     use "windwp/nvim-autopairs"
     use "wuelnerdotexe/vim-enfocado"
+    use {"tzachar/cmp-tabnine", run = "./install.sh", requires = "hrsh7th/nvim-cmp"}
     use {
       "hrsh7th/nvim-cmp",
       event = "InsertEnter *",
