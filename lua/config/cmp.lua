@@ -26,6 +26,9 @@ local cmp_kinds = {
   TypeParameter = "  "
 }
 
+require("luasnip").filetype_extend("javascript", {"javascriptreact"})
+require("luasnip").filetype_extend("javascript", {"html"})
+require("luasnip.loaders.from_vscode").lazy_load()
 local t = function(str)
   return vim.api.nvim_replace_termcodes(str, true, true, true)
 end
@@ -33,30 +36,29 @@ local cmp = require "cmp"
 
 cmp.setup {
   insert = true,
+  cmp.PreselectMode.None,
   completion = {completeopt = "menu,menuone,noinsert,noselect"},
   snippet = {
     expand = function(args)
-      vim.fn["UltiSnips#Anon"](args.body)
+      require("luasnip").lsp_expand(args.body)
     end
   },
   formatting = {
     with_text = true,
-    format = function(_, vim_item)
-      vim_item.abbr = string.sub(vim_item.abbr, 0, 35)
+    format = function(entry, vim_item)
       vim_item.kind = (cmp_kinds[vim_item.kind] or "") .. vim_item.kind
+      vim_item.menu =
+        ({
+        luasnip = "[LuaSnip]",
+        nvim_lua = "[Lua]",
+        latex_symbols = "[LaTeX]"
+      })[entry.source.name]
       return vim_item
     end
   },
   mapping = {
     ["<Tab>"] = cmp.mapping(
       {
-        c = function()
-          if cmp.visible() then
-            cmp.select_next_item({behavior = cmp.SelectBehavior.Insert})
-          else
-            cmp.complete()
-          end
-        end,
         i = function(fallback)
           if cmp.visible() then
             cmp.select_next_item({behavior = cmp.SelectBehavior.Insert})
@@ -77,13 +79,6 @@ cmp.setup {
     ),
     ["<S-Tab>"] = cmp.mapping(
       {
-        c = function()
-          if cmp.visible() then
-            cmp.select_prev_item({behavior = cmp.SelectBehavior.Insert})
-          else
-            cmp.complete()
-          end
-        end,
         i = function(fallback)
           if cmp.visible() then
             cmp.select_prev_item({behavior = cmp.SelectBehavior.Insert})
@@ -102,8 +97,8 @@ cmp.setup {
         end
       }
     ),
-    ["<Down>"] = cmp.mapping(cmp.mapping.select_next_item({behavior = cmp.SelectBehavior.Select}), {"i"}),
-    ["<Up>"] = cmp.mapping(cmp.mapping.select_prev_item({behavior = cmp.SelectBehavior.Select}), {"i"}),
+    --[[ ["<Down>"] = cmp.mapping(cmp.mapping.select_next_item({behavior = cmp.SelectBehavior.Select}), {"i"}),
+    ["<Up>"] = cmp.mapping(cmp.mapping.select_prev_item({behavior = cmp.SelectBehavior.Select}), {"i"}), ]]
     ["<C-n>"] = cmp.mapping(
       {
         c = function()
@@ -144,7 +139,7 @@ cmp.setup {
     ["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4), {"i", "c"}),
     ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), {"i", "c"}),
     ["<C-e>"] = cmp.mapping({i = cmp.mapping.close(), c = cmp.mapping.close()}),
-    ["<CR>"] = cmp.mapping(
+    --[[ ["<CR>"] = cmp.mapping(
       {
         i = cmp.mapping.confirm({behavior = cmp.ConfirmBehavior.Replace, select = false}),
         c = function(fallback)
@@ -155,17 +150,18 @@ cmp.setup {
           end
         end
       }
-    )
+    )]]
+    ["<CR>"] = cmp.mapping.confirm({select = false})
   },
   sources = {
     {name = "nvim_lsp", max_item_count = 20},
     {name = "nvim_lua"},
+    {name = "luasnip"},
     {name = "ultisnips"},
+    {name = "vsnip"},
     {name = "buffer", keyword_length = 5},
-    {name = "cmp_tabnine"},
     {name = "omni"},
     {name = "path"},
-    {name = "luasnip"},
     {name = "emoji"},
     {name = "calc"}
   },

@@ -13,7 +13,7 @@ set.compatible = false -- disable compatibility mode with vi
 vim.api.nvim_set_option("termguicolors", true)
 
 vim.cmd [[
-  colorscheme onedark    
+  colorscheme onedark
   filetype plugin indent on
   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
@@ -140,10 +140,10 @@ require("config..dap")
 --require("config.compe")
 require("config..cmp")
 require("config..telescope")
-require("config..treesitter")
+--require("config..treesitter")
 require("config..gitsign")
 require("config..luasnip")
---require("config..format")
+require("config..format")
 require("config..dap")
 require "nvim-tree".setup()
 require "colorizer".setup()
@@ -204,6 +204,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] =
   }
 )
 
+require "lspconfig".eslint.setup {}
 require("lualine").setup {options = {theme = "onedark"}}
 --require("lualine").setup {options = {theme = "enfocado"}}
 
@@ -223,9 +224,10 @@ autosave.setup(
     write_all_buffers = true,
     on_off_commands = true,
     clean_command_line_interval = 0,
-    debounce_delay = 135
+    debounce_delay = 10000
   }
 )
 
 -- last
 vim.cmd "source ~/.config/nvim/lua/script.vim"
+vim.cmd [[ autocmd BufRead,BufNewFile *.org set filetype=org ]]

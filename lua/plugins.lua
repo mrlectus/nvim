@@ -22,7 +22,7 @@ return require("packer").startup(
     use "RishabhRD/popfix"
     use {
       "SirVer/ultisnips",
-      requires = {{"honza/vim-snippets", rtp = "."}},
+      requires = {{"honza/vim-snippets", rtp = "."}, {"mlaursen/vim-react-snippets"}},
       config = function()
         vim.g.UltiSnipsExpandTrigger = "<Plug>(ultisnips_expand)"
         vim.g.UltiSnipsJumpForwardTrigger = "<Plug>(ultisnips_jump_forward)"
@@ -95,7 +95,6 @@ return require("packer").startup(
     use "voldikss/vim-floaterm"
     use "windwp/nvim-autopairs"
     use "wuelnerdotexe/vim-enfocado"
-    use {"tzachar/cmp-tabnine", run = "./install.sh", requires = "hrsh7th/nvim-cmp"}
     use {
       "hrsh7th/nvim-cmp",
       event = "InsertEnter *",
@@ -108,10 +107,12 @@ return require("packer").startup(
         "rafamadriz/friendly-snippets",
         {
           "windwp/nvim-autopairs"
-        }
+        },
+        {"saadparwaiz1/cmp_luasnip"}
       }
     }
     use {"hrsh7th/cmp-path", after = "nvim-cmp"}
+    use {"saadparwaiz1/cmp_luasnip", after = "nvim-cmp"}
     use {"hrsh7th/cmp-buffer", after = "nvim-cmp"}
     use {"hrsh7th/cmp-nvim-lsp", after = "nvim-cmp"}
     use {"abzcoding/cmp_luasnip", after = "nvim-cmp"}
