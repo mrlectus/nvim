@@ -1,7 +1,7 @@
 if has("autocmd")
   au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 endif
-
+autocmd BufWritePre *.tsx,*.ts,*.jsx,*.js EslintFixAll
 function! LspStatus() abort
   if luaeval('#vim.lsp.buf_get_clients() > 0')
     return luaeval("require('lsp-status').status()")

@@ -1,3 +1,6 @@
 plugged/*
+spell
+plugin
 pack/*
 .gitignore
+.luarc.json

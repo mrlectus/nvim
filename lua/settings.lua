@@ -1,19 +1,14 @@
 --Enable (broadcasting) snippet capability for completion
-local lspconfig = require("lspconfig")
 local lsp_status = require("lsp-status")
-local on_attach = function(client)
-  require "completion".on_attach(client)
-end
-
 -- environment for home
 local set = vim.opt
 set.filetype = "off" --disable filetype detection (but re-enable later, see below)
 HOME = os.getenv("HOME")
 set.compatible = false -- disable compatibility mode with vi
 vim.api.nvim_set_option("termguicolors", true)
-
+vim.cmd("colorscheme onedarkpro") -- Lua
 vim.cmd [[
-  colorscheme onedark
+  nnoremap <silent> <Esc><Esc> :nohlsearch<CR><Esc>
   filetype plugin indent on
   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
@@ -46,12 +41,12 @@ set.smartcase = true
 set.updatetime = 250
 vim.wo.signcolumn = "yes"
 
-set.clipboard:prepend {"unnamedplus"}
+set.clipboard:prepend { "unnamedplus" }
 set.completeopt:prepend("menuone,noselect,noinsert")
 
 set.list = true
 set.number = true --show line numbers
-set.wrap = true --wrap lines
+set.wrap = false --wrap lines
 
 --set.spell spelllang=en_us
 set.encoding = "utf-8" --set encoding to UTF-8 (default was "latin1")
@@ -65,9 +60,9 @@ set.visualbell = true --blink cursor on error, instead of beeping
 
 -- Tab settings
 set.expandtab = true
-set.tabstop = 2 -- width that a <TAB> character displays as
-set.shiftwidth = 2 -- number of spaces to use for each step of (auto)indent
-set.softtabstop = 2 -- backspace after pressing <TAB> will remove up to this many spaces
+set.tabstop = 4 -- width that a <TAB> character displays as
+set.shiftwidth = 4 -- number of spaces to use for each step of (auto)indent
+set.softtabstop = 4 -- backspace after pressing <TAB> will remove up to this many spaces
 
 set.autoindent = true -- copy indent from current line when starting a new line
 set.smartindent = true -- even better autoindent (e.g. add indent after '{')
@@ -98,27 +93,31 @@ vim.g.dashboard_default_executive = "telescope"
 
 vim.g.completion_enable_snippet = "vim-vsnip"
 vim.g.vsnip_filetypes = {}
+vim.g.vsnip_filetypes.javascriptreact = { "javascript" }
+vim.g.vsnip_filetypes.typescriptreact = { "typescript" }
+vim.g.user_emmet_expandabbr_key = "<c-e>"
 set.background = "dark" -- configure Vim to use brighter colors
 
 -- Highlight on yank
 vim.api.nvim_exec(
-  [[
+    [[
   augroup YankHighlight
     autocmd!
     autocmd TextYankPost * silent! lua vim.highlight.on_yank()
   augroup end
-]],
-  false
+]]   ,
+    false
 )
 
 --- require
 require("servers..keybind")
 require("servers..bashls")
 require("servers..cssls")
-require("servers..ccls")
+--require("servers..ccls")
 require("servers..gopls")
 require("servers..html")
 require("servers..sumneco")
+require("servers..yamls")
 require("servers..phpactor")
 require("servers..pylsp")
 require("servers..rust_analyzer")
@@ -137,10 +136,9 @@ require("config..devicons")
 require("config..evil_lualine")
 require("config..lspkind")
 require("config..dap")
---require("config.compe")
 require("config..cmp")
 require("config..telescope")
---require("config..treesitter")
+require("config..treesitter")
 require("config..gitsign")
 require("config..luasnip")
 require("config..format")
@@ -151,82 +149,90 @@ require "lspconfig".emmet_ls.setup {}
 require("which-key").setup {}
 require "lspconfig".pyre.setup {}
 require("lsp_signature").setup(
-  {
-    floating_window = false,
-    hint_enable = true, -- virtual hint enable
-    hint_prefix = "🐼 ", -- Panda for parameter
-    hint_scheme = "String"
-  }
+    {
+        floating_window = false,
+        hint_enable = true, -- virtual hint enable
+        hint_prefix = "🐼 ", -- Panda for parameter
+        hint_scheme = "String"
+    }
+)
+require("onedarkpro").setup(
+    {
+        dark_theme = "onedark_dark",
+        light_theme = "onelight",
+        theme = "onedark_dark",
+        styles = {
+            -- Choose from "bold,italic,underline"
+            strings = "bold", -- Style that is applied to strings.
+            comments = "italic", -- Style that is applied to comments
+            keywords = "italic", -- Style that is applied to keywords
+            functions = "bold, italic", -- Style that is applied to functions
+            variables = "NONE", -- Style that is applied to variables
+            virtual_text = "italic" -- Style that is applied to virtual text
+        },
+        options = {
+            bold = true, -- Use the colorscheme's opinionated bold styles?
+            italic = true, -- Use the colorscheme's opinionated italic styles?
+            underline = true, -- Use the colorscheme's opinionated underline styles?
+            undercurl = true, -- Use the colorscheme's opinionated undercurl styles?
+            cursorline = true, -- Use cursorline highlighting?
+            transparency = false, -- Use a transparent background?
+            terminal_colors = true, -- Use the colorscheme's colors for Neovim's :terminal?
+            window_unfocused_color = true -- When the window is out of focus, change the normal background?
+        },
+        plugns = {
+            all = true
+        }
+    }
 )
 lsp_status.register_progress()
 -- Go-to definition in a split window
 local function goto_definition(split_cmd)
-  local util = vim.lsp.util
-  local log = require("vim.lsp.log")
-  local api = vim.api
+    local util = vim.lsp.util
+    local log = require("vim.lsp.log")
+    local api = vim.api
 
-  -- note, this handler style is for neovim 0.5.1/0.6, if on 0.5, call with function(_, method, result)
-  local handler = function(_, result, ctx)
-    if result == nil or vim.tbl_isempty(result) then
-      local _ = log.info() and log.info(ctx.method, "No location found")
-      return nil
+    -- note, this handler style is for neovim 0.5.1/0.6, if on 0.5, call with function(_, method, result)
+    local handler = function(_, result, ctx)
+        if result == nil or vim.tbl_isempty(result) then
+            local _ = log.info() and log.info(ctx.method, "No location found")
+            return nil
+        end
+
+        if split_cmd then
+            vim.cmd(split_cmd)
+        end
+
+        if vim.tbl_islist(result) then
+            util.jump_to_location(result[1])
+
+            if #result > 1 then
+                util.set_qflist(util.locations_to_items(result))
+                api.nvim_command("copen")
+                api.nvim_command("wincmd p")
+            end
+        else
+            util.jump_to_location(result)
+        end
     end
 
-    if split_cmd then
-      vim.cmd(split_cmd)
-    end
-
-    if vim.tbl_islist(result) then
-      util.jump_to_location(result[1])
-
-      if #result > 1 then
-        util.set_qflist(util.locations_to_items(result))
-        api.nvim_command("copen")
-        api.nvim_command("wincmd p")
-      end
-    else
-      util.jump_to_location(result)
-    end
-  end
-
-  return handler
+    return handler
 end
 
 vim.lsp.handlers["textDocument/definition"] = goto_definition("split")
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] =
-  vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics,
-  {
-    virtual_text = {
-      source = "always" -- Or "if_many"
+vim.lsp.with(
+    vim.lsp.diagnostic.on_publish_diagnostics,
+    {
+        virtual_text = {
+            source = "always" -- Or "if_many"
+        }
     }
-  }
 )
 
-require "lspconfig".eslint.setup {}
-require("lualine").setup {options = {theme = "onedark"}}
+require("lualine").setup { options = { theme = "onedark" } }
 --require("lualine").setup {options = {theme = "enfocado"}}
-
-local autosave = require("autosave")
-
-autosave.setup(
-  {
-    enabled = true,
-    execution_message = "AutoSave: saved at " .. vim.fn.strftime("%H:%M:%S"),
-    events = {"InsertLeave"},
-    conditions = {
-      exists = true,
-      filename_is_not = {},
-      filetype_is_not = {},
-      modifiable = true
-    },
-    write_all_buffers = true,
-    on_off_commands = true,
-    clean_command_line_interval = 0,
-    debounce_delay = 10000
-  }
-)
 
 -- last
 vim.cmd "source ~/.config/nvim/lua/script.vim"

@@ -1,8 +1,6 @@
-local nvim_lsp = require("lspconfig")
-
 -- Mappings.
 local map = vim.api.nvim_set_keymap
-local opts = {noremap = true, silent = true}
+local opts = { noremap = true, silent = true }
 map("n", "gD", ":lua vim.lsp.buf.declaration()<CR>", opts)
 map("n", "gd", ":lua vim.lsp.buf.definition()<CR>", opts)
 map("n", "K", ":lua vim.lsp.buf.hover()<CR>", opts)
@@ -15,41 +13,57 @@ map("n", "<leader>D", ":lua vim.lsp.buf.type_definition()<CR>", opts)
 map("n", "<leader>rn", ":lua vim.lsp.buf.rename()<CR>", opts)
 map("n", "<leader>ca", ":lua vim.lsp.buf.code_action()<CR>", opts)
 map("n", "gbr", ":lua vim.lsp.buf.references()<CR>", opts)
-map("n", "<leader>e", ":lua vim.diagnostic.show()<CR>", opts)
+map("n", "<leader>e", ":lua vim.diagnostic.open_float()<CR>", opts)
 map("n", "[d", ":lua vim.diagnostic.goto_prev()<CR>", opts)
 map("n", "]d", ":lua vim.diagnostic.goto_next()<CR>", opts)
 map("n", "<leader>q", ":lua vim.diagnostic.setloclist()<CR>", opts)
-map("n", "<leader>f", ":lua vim.lsp.buf.formatting()<CR>", opts)
+map("n", "[f", ":lua vim.lsp.buf.format()<CR>", opts)
 
 -- Setup lspconfig.
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
 local servers = {
-  "tsserver",
-  "ccls",
-  "texlab",
-  "html",
-  "cssls",
-  "phpactor",
-  "gopls",
-  "ltex",
-  "intelephense",
-  "rust_analyzer",
-  "pylsp",
-  "kotlin_language_server",
-  "jdtls"
+    "tsserver",
+    "marksman",
+    "remark_ls",
+    "ansiblels",
+    "dockerls",
+    "sumneko_lua",
+    "eslint",
+    "solc",
+    "vimls",
+    "solidity_ls",
+    "bashls",
+    "clangd",
+    "tailwindcss",
+    --"ccls",
+    "texlab",
+    "html",
+    "cssls",
+    "phpactor",
+    "gopls",
+    "intelephense",
+    "rust_analyzer",
+    "pylsp",
+    "kotlin_language_server",
+    "jdtls"
 }
 
-for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
-    flags = {
-      debounce_text_changes = 150
+--[[ for _, lsp in ipairs(servers) do
+    nvim_lsp[lsp].setup {
+        on_attach = on_attach,
+        capabilities = capabilities,
+        flags = {
+            debounce_text_changes = 150
+        }
     }
-  }
+end ]]
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
+-- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
+for _, lsp in ipairs(servers) do
+    require("lspconfig")[lsp].setup {
+        capabilities = capabilities
+    }
 end
 
 vim.lsp.handlers["textDocument/codeAction"] = require "lsputil.codeAction".code_action_handler
@@ -68,10 +82,10 @@ vim.lsp.handlers["workspace/symbol"] = require "lsputil.symbols".workspace_handl
 map("n", "<C-p>", ":BufferPick<CR>", opts)
 
 -- Window movement
-map("n", "<C-h>", "<C-w>h", {silent = true})
-map("n", "<C-j>", "<C-w>j", {silent = true})
-map("n", "<C-k>", "<C-w>k", {silent = true})
-map("n", "<C-l>", "<C-w>l", {silent = true})
+map("n", "<C-h>", "<C-w>h", { silent = true })
+map("n", "<C-j>", "<C-w>j", { silent = true })
+map("n", "<C-k>", "<C-w>k", { silent = true })
+map("n", "<C-l>", "<C-w>l", { silent = true })
 
 -- Sort automatically by...
 map("n", "<Space>bb", ":BufferOrderByBufferNumber<CR>", opts)
@@ -105,8 +119,8 @@ map("n", "<leader>fb", ":Telescope buffers<CR>", opts)
 map("n", "<leader>fh", ":Telescope help_tags<CR>", opts)
 
 -- move vertically by visual line (don't skip wrapped lines)
-map("v", "j", "gj", {silent = true})
-map("v", "k", "gk", {silent = true})
+map("v", "j", "gj", { silent = true })
+map("v", "k", "gk", { silent = true })
 
 -- Floating stuffnnn
 map("n", "<leader>t", ":FloatermToggle<CR>", opts)
@@ -124,17 +138,17 @@ map("n", "<leader>sl", ":SessionLoad<CR>", opts)
 --map("n", "ff", "vim.lsp.buf.formatting()<CR>", opts)
 --map("n", "<leader>s", "vim.lsp.buf.formatting()<CR>", opts)
 vim.cmd [[
-  autocmd BufWritePre *.cpp lua vim.lsp.buf.formatting_sync()
-  autocmd BufWritePre *.h lua vim.lsp.buf.formatting_sync()
-  autocmd BufWritePre *.css lua vim.lsp.buf.formatting_sync()
-  autocmd BufWritePre *.html lua vim.lsp.buf.formatting_sync()
-  autocmd BufWritePre *.java lua vim.lsp.buf.formatting_sync()
-  autocmd BufWritePre *.lua lua vim.lsp.buf.formatting_sync()
-  autocmd BufWritePre *.scss lua vim.lsp.buf.formatting_sync()
-  autocmd BufWritePre *.php lua vim.lsp.buf.formatting_sync()
-  autocmd BufWritePre *.kts lua vim.lsp.buf.formatting_sync()
-  autocmd BufWritePre *.kt lua vim.lsp.buf.formatting_sync()
-  autocmd BufWritePre *.py lua vim.lsp.buf.formatting_sync()
+  autocmd BufWritePre *.cpp lua vim.lsp.buf.format()
+  autocmd BufWritePre *.h lua vim.lsp.buf.format()
+  autocmd BufWritePre *.css lua vim.lsp.buf.format()
+  autocmd BufWritePre *.html lua vim.lsp.buf.format()
+  autocmd BufWritePre *.java lua vim.lsp.buf.format()
+  autocmd BufWritePre *.lua lua vim.lsp.buf.format()
+  autocmd BufWritePre *.scss lua vim.lsp.buf.format()
+  autocmd BufWritePre *.php lua vim.lsp.buf.format()
+  autocmd BufWritePre *.kts lua vim.lsp.buf.format()
+  autocmd BufWritePre *.kt lua vim.lsp.buf.format()
+  autocmd BufWritePre *.py lua vim.lsp.buf.format()
 ]]
 
 -- Jumping
