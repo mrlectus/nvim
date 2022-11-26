@@ -19,7 +19,7 @@ vim.cmd [[
 -- Set map leader
 vim.g.mapleader = ","
 
-vim.lsp.set_log_level("debug")
+-- vim.lsp.set_log_level("debug")
 
 --Set highlight on search
 set.hlsearch = true
@@ -29,6 +29,10 @@ set.mouse = "a"
 
 --Enable break indent
 set.breakindent = true
+
+-- Fold
+
+set.foldmethod = "expr"
 
 --Save undo history
 set.undofile = true
@@ -53,6 +57,8 @@ set.encoding = "utf-8" --set encoding to UTF-8 (default was "latin1")
 set.mouse = "a" --enable mouse support (might not work well on Mac OS X)
 set.wildmenu = true --visual autocomplete for command menu
 set.lazyredraw = true --redraw screen only when we need to
+set.colorcolumn = "120"
+set.textwidth = 140
 set.showmatch = true --highlight matching parentheses / brackets [{()}]
 set.laststatus = 2 --always show statusline (even with only single window)
 set.ruler = true --show line and column number of the cursor on right side of statusline

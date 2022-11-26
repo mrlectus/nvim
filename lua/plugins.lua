@@ -1,7 +1,4 @@
 vim.cmd [[
-    packadd vim-vsnip
-    packadd vim-vsnip-integ
-    packadd nvim-compe
     packadd nvim-cmp
     packadd nvim-colorizer.lua
     packadd nvim-dap-ui
@@ -17,6 +14,7 @@ return require("packer").startup(
         use "joshdick/onedark.vim"
         use "jacquesg/p5-Neovim-Ext"
         use "rafamadriz/friendly-snippets"
+        use "neoclide/vim-jsx-improve"
         --[[ use(
       {
         "Pocco81/auto-save.nvim",
@@ -51,11 +49,6 @@ return require("packer").startup(
         use "honza/vim-snippets"
         use "nvim-lualine/lualine.nvim"
         use { "autozimu/LanguageClient-neovim", run = "bash install.sh" }
-        use {
-            "hrsh7th/nvim-compe",
-            event = "InsertEnter *",
-            requires = { { "hrsh7th/vim-vsnip" }, { "hrsh7th/vim-vsnip-integ" } }
-        }
         use "hrsh7th/vim-vsnip-integ"
         use "jlanzarotta/bufexplorer"
         use "kyazdani42/nvim-tree.lua"
@@ -103,32 +96,17 @@ return require("packer").startup(
         }
         use "voldikss/vim-floaterm"
         use "windwp/nvim-autopairs"
-        use "wuelnerdotexe/vim-enfocado"
-        use {
-            "hrsh7th/nvim-cmp",
-            config = function()
-                require "cmp".setup {
-                    snippet = {
-                        expand = function(args)
-                            require "luasnip".lsp_expand(args.body)
-                        end
-                    },
-                    sources = {
-                        { name = "luasnip" }
-                        -- more sources
-                    }
-                }
-            end
-        }
-        use { "hrsh7th/cmp-path", after = "nvim-cmp" }
-        use { "saadparwaiz1/cmp_luasnip", after = "nvim-cmp" }
-        use { "hrsh7th/cmp-buffer", after = "nvim-cmp" }
-        use { "hrsh7th/cmp-nvim-lsp", after = "nvim-cmp" }
-        use { "hrsh7th/cmp-nvim-lua", after = "nvim-cmp" }
-        use { "hrsh7th/cmp-emoji", after = "nvim-cmp" }
-        use { "hrsh7th/cmp-calc", after = "nvim-cmp" }
-        use { "hrsh7th/cmp-omni", after = "nvim-cmp" }
-        use({ "L3MON4D3/LuaSnip", tag = "v<CurrentMajor>.*" })
+        use "hrsh7th/nvim-cmp"
+        use "hrsh7th/cmp-path"
+        use "saadparwaiz1/cmp_luasnip"
+        use "hrsh7th/cmp-buffer"
+        use "hrsh7th/cmp-cmdline"
+        use "hrsh7th/cmp-nvim-lsp"
+        use "hrsh7th/cmp-nvim-lua"
+        use "hrsh7th/cmp-emoji"
+        use "hrsh7th/cmp-calc"
+        use "hrsh7th/cmp-omni"
+        use "L3MON4D3/LuaSnip"
 
         -- Debugger
         use {

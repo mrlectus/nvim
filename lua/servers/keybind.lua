@@ -1,27 +1,90 @@
--- Mappings.
-local map = vim.api.nvim_set_keymap
-local opts = { noremap = true, silent = true }
-map("n", "gD", ":lua vim.lsp.buf.declaration()<CR>", opts)
-map("n", "gd", ":lua vim.lsp.buf.definition()<CR>", opts)
-map("n", "K", ":lua vim.lsp.buf.hover()<CR>", opts)
-map("n", "gi", ":lua vim.lsp.buf.implementation()<CR>", opts)
-map("n", "<C-k>", ":lua vim.lsp.buf.signature_help()<CR>", opts)
-map("n", "<leader>wa", ":lua vim.lsp.buf.add_workspace_folder()<CR>", opts)
-map("n", "<leader>wr", ":lua vim.lsp.buf.remove_workspace_folder()<CR>", opts)
-map("n", "<leader>wl", ":lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>", opts)
-map("n", "<leader>D", ":lua vim.lsp.buf.type_definition()<CR>", opts)
-map("n", "<leader>rn", ":lua vim.lsp.buf.rename()<CR>", opts)
-map("n", "<leader>ca", ":lua vim.lsp.buf.code_action()<CR>", opts)
-map("n", "gbr", ":lua vim.lsp.buf.references()<CR>", opts)
-map("n", "<leader>e", ":lua vim.diagnostic.open_float()<CR>", opts)
-map("n", "[d", ":lua vim.diagnostic.goto_prev()<CR>", opts)
-map("n", "]d", ":lua vim.diagnostic.goto_next()<CR>", opts)
-map("n", "<leader>q", ":lua vim.diagnostic.setloclist()<CR>", opts)
-map("n", "[f", ":lua vim.lsp.buf.format()<CR>", opts)
+-- local lspconfig = require("lspconfig")
+--[[ local lsp_defaults = lspconfig.util.default_config
 
--- Setup lspconfig.
--- Use a loop to conveniently call 'setup' on multiple servers and
--- map buffer local keybindings when the language server attaches
+lsp_defaults.capabilities =
+vim.tbl_deep_extend("force", lsp_defaults.capabilities, require("cmp_nvim_lsp").default_capabilities()) ]]
+-- Mappings.
+--
+local opts = { noremap = true, silent = true }
+local map = vim.keymap.set
+vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, opts)
+vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
+vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
+vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, opts)
+
+----To check ---
+vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
+vim.keymap.set("n", "<space>wa", vim.lsp.buf.add_workspace_folder, opts)
+vim.keymap.set("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, opts)
+vim.keymap.set(
+    "n",
+    "<space>wl",
+    function()
+        print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    end,
+    opts
+)
+vim.keymap.set("n", "<space>D", vim.lsp.buf.type_definition, opts)
+vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, opts)
+vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, opts)
+vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+vim.keymap.set(
+    "n",
+    "<space>f",
+    function()
+        vim.lsp.buf.format { async = true }
+    end,
+    opts
+)
+
+---END---
+-- Use an on_attach function to only map the following keys
+-- after the language server attaches to the current buffer
+local do_attach = function(client, bufnr)
+    -- Enable completion triggered by <c-x><c-o>
+    vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+
+    -- Mappings.
+    -- See `:help vim.lsp.*` for documentation on any of the below functions
+    local bufopts = { noremap = true, silent = true, buffer = bufnr }
+    vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
+    vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
+    vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
+    vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
+    vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, bufopts)
+    vim.keymap.set("n", "<space>wa", vim.lsp.buf.add_workspace_folder, bufopts)
+    vim.keymap.set("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, bufopts)
+    vim.keymap.set(
+        "n",
+        "<space>wl",
+        function()
+            print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+        end,
+        bufopts
+    )
+    vim.keymap.set("n", "<space>D", vim.lsp.buf.type_definition, bufopts)
+    vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, bufopts)
+    vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, bufopts)
+    vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
+    vim.keymap.set(
+        "n",
+        "<space>f",
+        function()
+            vim.lsp.buf.format { async = true }
+        end,
+        bufopts
+    )
+end
+
+local lsp_flags = {
+    -- This is the default in Nvim 0.7+
+    debounce_text_changes = 150
+}
+
 local servers = {
     "tsserver",
     "marksman",
@@ -36,7 +99,6 @@ local servers = {
     "bashls",
     "clangd",
     "tailwindcss",
-    --"ccls",
     "texlab",
     "html",
     "cssls",
@@ -49,20 +111,12 @@ local servers = {
     "jdtls"
 }
 
---[[ for _, lsp in ipairs(servers) do
-    nvim_lsp[lsp].setup {
-        on_attach = on_attach,
-        capabilities = capabilities,
-        flags = {
-            debounce_text_changes = 150
-        }
-    }
-end ]]
-local capabilities = require("cmp_nvim_lsp").default_capabilities()
--- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
+local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 for _, lsp in ipairs(servers) do
     require("lspconfig")[lsp].setup {
-        capabilities = capabilities
+        capabilities = capabilities,
+        on_attach = do_attach,
+        flags = lsp_flags
     }
 end
 
