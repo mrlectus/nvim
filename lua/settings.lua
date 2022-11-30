@@ -15,6 +15,9 @@ vim.cmd [[
   let g:LanguageClient_serverCommands = {
     \ 'sh': ['bash-language-server', 'start']
     \ }
+  set foldmethod=expr
+  set foldexpr=nvim_treesitter#foldexpr()
+  set nofoldenable
 ]]
 -- Set map leader
 vim.g.mapleader = ","
@@ -134,7 +137,6 @@ require("servers..tsserver")
 require("config..barbar")
 require("servers..javals")
 require("servers..kotlinls")
-require("config..luasnip")
 require("config..cheatsheet")
 require("config..colors")
 require("config..autopair")
