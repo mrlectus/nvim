@@ -68,7 +68,6 @@ require("formatter").setup({
                 return {
                     exe = "rustfmt",
                     stdin = true,
-                    args = { "--edition 2021", vim.fn.fnameescape(vim.api.nvim_buf_get_name(0)) },
                 }
             end,
         },

@@ -20,114 +20,95 @@ vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
 vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
 vim.keymap.set("n", "<space>wa", vim.lsp.buf.add_workspace_folder, opts)
 vim.keymap.set("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, opts)
-vim.keymap.set(
-    "n",
-    "<space>wl",
-    function()
-        print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-    end,
-    opts
-)
+vim.keymap.set("n", "<space>wl", function()
+  print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+end, opts)
 vim.keymap.set("n", "<space>D", vim.lsp.buf.type_definition, opts)
 vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, opts)
 vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, opts)
 vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
-vim.keymap.set(
-    "n",
-    "<space>f",
-    function()
-        vim.lsp.buf.format { async = true }
-    end,
-    opts
-)
+vim.keymap.set("n", "<space>f", function()
+  vim.lsp.buf.format({ async = true })
+end, opts)
 
 ---END---
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local do_attach = function(client, bufnr)
-    -- Enable completion triggered by <c-x><c-o>
-    vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+  -- Enable completion triggered by <c-x><c-o>
+  vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
-    -- Mappings.
-    -- See `:help vim.lsp.*` for documentation on any of the below functions
-    local bufopts = { noremap = true, silent = true, buffer = bufnr }
-    vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
-    vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
-    vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
-    vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
-    vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, bufopts)
-    vim.keymap.set("n", "<space>wa", vim.lsp.buf.add_workspace_folder, bufopts)
-    vim.keymap.set("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, bufopts)
-    vim.keymap.set(
-        "n",
-        "<space>wl",
-        function()
-            print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-        end,
-        bufopts
-    )
-    vim.keymap.set("n", "<space>D", vim.lsp.buf.type_definition, bufopts)
-    vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, bufopts)
-    vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, bufopts)
-    vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
-    vim.keymap.set(
-        "n",
-        "<space>f",
-        function()
-            vim.lsp.buf.format { async = true }
-        end,
-        bufopts
-    )
+  -- Mappings.
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  local bufopts = { noremap = true, silent = true, buffer = bufnr }
+  vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
+  vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
+  vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
+  vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
+  vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, bufopts)
+  vim.keymap.set("n", "<space>wa", vim.lsp.buf.add_workspace_folder, bufopts)
+  vim.keymap.set("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, bufopts)
+  vim.keymap.set("n", "<space>wl", function()
+    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+  end, bufopts)
+  vim.keymap.set("n", "<space>D", vim.lsp.buf.type_definition, bufopts)
+  vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, bufopts)
+  vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, bufopts)
+  vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
+  vim.keymap.set("n", "<space>f", function()
+    vim.lsp.buf.format({ async = true })
+  end, bufopts)
 end
 
 local lsp_flags = {
-    -- This is the default in Nvim 0.7+
-    debounce_text_changes = 150
+  -- This is the default in Nvim 0.7+
+  debounce_text_changes = 150,
 }
 
 local servers = {
-    "tsserver",
-    "marksman",
-    "remark_ls",
-    "ansiblels",
-    "dockerls",
-    "sumneko_lua",
-    "eslint",
-    "solc",
-    "vimls",
-    "solidity_ls",
-    "bashls",
-    "clangd",
-    "tailwindcss",
-    "texlab",
-    "html",
-    "cssls",
-    "phpactor",
-    "gopls",
-    "intelephense",
-    "rust_analyzer",
-    "pylsp",
-    "kotlin_language_server",
-    "jdtls"
+  "tsserver",
+  "marksman",
+  "remark_ls",
+  "ansiblels",
+  "dockerls",
+  "sumneko_lua",
+  "eslint",
+  "solc",
+  "vimls",
+  "solidity_ls",
+  "bashls",
+  "clangd",
+  "tailwindcss",
+  "texlab",
+  "html",
+  "dartls",
+  "cssls",
+  "phpactor",
+  "gopls",
+  "intelephense",
+  "rust_analyzer",
+  "pylsp",
+  "kotlin_language_server",
+  "jdtls",
 }
 
 local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 for _, lsp in ipairs(servers) do
-    require("lspconfig")[lsp].setup {
-        capabilities = capabilities,
-        on_attach = do_attach,
-        flags = lsp_flags
-    }
+  require("lspconfig")[lsp].setup({
+    capabilities = capabilities,
+    on_attach = do_attach,
+    flags = lsp_flags,
+  })
 end
 
-vim.lsp.handlers["textDocument/codeAction"] = require "lsputil.codeAction".code_action_handler
-vim.lsp.handlers["textDocument/references"] = require "lsputil.locations".references_handler
-vim.lsp.handlers["textDocument/definition"] = require "lsputil.locations".definition_handler
-vim.lsp.handlers["textDocument/declaration"] = require "lsputil.locations".declaration_handler
-vim.lsp.handlers["textDocument/typeDefinition"] = require "lsputil.locations".typeDefinition_handler
-vim.lsp.handlers["textDocument/implementation"] = require "lsputil.locations".implementation_handler
-vim.lsp.handlers["textDocument/documentSymbol"] = require "lsputil.symbols".document_handler
-vim.lsp.handlers["workspace/symbol"] = require "lsputil.symbols".workspace_handler
+vim.lsp.handlers["textDocument/codeAction"] = require("lsputil.codeAction").code_action_handler
+vim.lsp.handlers["textDocument/references"] = require("lsputil.locations").references_handler
+vim.lsp.handlers["textDocument/definition"] = require("lsputil.locations").definition_handler
+vim.lsp.handlers["textDocument/declaration"] = require("lsputil.locations").declaration_handler
+vim.lsp.handlers["textDocument/typeDefinition"] = require("lsputil.locations").typeDefinition_handler
+vim.lsp.handlers["textDocument/implementation"] = require("lsputil.locations").implementation_handler
+vim.lsp.handlers["textDocument/documentSymbol"] = require("lsputil.symbols").document_handler
+vim.lsp.handlers["workspace/symbol"] = require("lsputil.symbols").workspace_handler
 
 --source lua & vim
 --map("n", "<leader>")
@@ -191,7 +172,7 @@ map("n", "<leader>sl", ":SessionLoad<CR>", opts)
 -- formating
 --map("n", "ff", "vim.lsp.buf.formatting()<CR>", opts)
 --map("n", "<leader>s", "vim.lsp.buf.formatting()<CR>", opts)
-vim.cmd [[
+vim.cmd([[
   autocmd BufWritePre *.cpp lua vim.lsp.buf.format()
   autocmd BufWritePre *.h lua vim.lsp.buf.format()
   autocmd BufWritePre *.css lua vim.lsp.buf.format()
@@ -203,7 +184,7 @@ vim.cmd [[
   autocmd BufWritePre *.kts lua vim.lsp.buf.format()
   autocmd BufWritePre *.kt lua vim.lsp.buf.format()
   autocmd BufWritePre *.py lua vim.lsp.buf.format()
-]]
+]])
 
 -- Jumping
 map("n", "<leader>nb", "<C-o>", opts)
