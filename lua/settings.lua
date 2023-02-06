@@ -142,6 +142,7 @@ require("config..barbar")
 require("servers..javals")
 require("servers..kotlinls")
 require("config..cheatsheet")
+require("config..theme")
 require("config..colors")
 require("config..autopair")
 require("config..devicons")
@@ -167,16 +168,6 @@ require("lsp_signature").setup({
   hint_scheme = "String",
 })
 
-require("onedark").setup({
-  style = "cool",
-  transparent = true,
-  code_style = {
-    functions = "bold",
-    keywords = "bold",
-  },
-})
-
-require("onedark").load()
 lsp_status.register_progress()
 -- Go-to definition in a split window
 local function goto_definition(split_cmd)
@@ -218,8 +209,6 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagn
     source = "always", -- Or "if_many"
   },
 })
-
-require("lualine").setup({ options = { theme = "onedark" } })
 
 -- last
 vim.cmd("source ~/.config/nvim/lua/script.vim")

@@ -9,9 +9,19 @@ vim.cmd([[packadd packer.nvim]])
 return require("packer").startup(function(use)
   -- Packer can manage itself
   use("wbthomason/packer.nvim")
+  use({
+    "Exafunction/codeium.vim",
+    config = function()
+      -- Change '<C-g>' here to any keycode you like.
+      vim.keymap.set("i", "<C-g>", function()
+        return vim.fn["codeium#Accept"]()
+      end, { expr = true })
+    end,
+  })
   use("CurtisFenner/luafmt")
   use("rafamadriz/friendly-snippets")
   use("neoclide/vim-jsx-improve")
+  use("rebelot/kanagawa.nvim")
   --[[ use(
       {
         "Pocco81/auto-save.nvim",
@@ -42,7 +52,14 @@ return require("packer").startup(function(use)
   use("folke/lsp-colors.nvim")
   use("folke/which-key.nvim")
   use("gko/vim-coloresque")
-  use("glepnir/dashboard-nvim")
+  use({
+    "glepnir/dashboard-nvim",
+    event = "VimEnter",
+    header = { "DASHBOARD!!!" },
+    config = function()
+      require("dashboard").setup({})
+    end,
+  })
   use("honza/vim-snippets")
   use("nvim-lualine/lualine.nvim")
   use({ "autozimu/LanguageClient-neovim", run = "bash install.sh" })

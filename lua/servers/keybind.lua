@@ -164,7 +164,7 @@ map("t", "<leader>t", "<C-\\><C-n>:FloatermToggle<CR>", opts)
 
 -- turn off search highlighting with <CR> (carriage-return)
 map("n", "<CR>", ":nohlsearch<CR><CR>", opts)
-map("n", "<S-F1>", ":NvimTreeToggle<CR>", opts)
+map("n", "<F13>", ":NvimTreeToggle<CR>", opts)
 
 -- Dashboard provides session support. With SessionLoad and SessionSave
 map("n", "<leader>ss", ":SessionSave<CR>", opts)
