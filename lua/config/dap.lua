@@ -4,7 +4,7 @@ local dap = require "dap"
 dap.adapters.python = {
   type = "executable",
   command = "python",
-  args = {"-m", "debugpy.adapter"}
+  args = { "-m", "debugpy.adapter" }
 }
 
 dap.configurations.python = {
@@ -26,7 +26,7 @@ dap.configurations.python = {
 
 -- Neovim Lua
 dap.adapters.nlua = function(callback, config)
-  callback {type = "server", host = config.host, port = config.port}
+  callback { type = "server", host = config.host, port = config.port }
 end
 
 dap.configurations.lua = {

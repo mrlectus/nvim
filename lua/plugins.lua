@@ -1,15 +1,5 @@
-vim.cmd([[
-    packadd nvim-cmp
-    packadd nvim-colorizer.lua
-    packadd nvim-dap-ui
-    packadd nvim-dap
-    packadd cmp-nvim-lsp
-]])
-vim.cmd([[packadd packer.nvim]])
-return require("packer").startup(function(use)
-  -- Packer can manage itself
-  use("wbthomason/packer.nvim")
-  use({
+return {
+  {
     "Exafunction/codeium.vim",
     config = function()
       -- Change '<C-g>' here to any keycode you like.
@@ -17,24 +7,14 @@ return require("packer").startup(function(use)
         return vim.fn["codeium#Accept"]()
       end, { expr = true })
     end,
-  })
-  use("CurtisFenner/luafmt")
-  use("rafamadriz/friendly-snippets")
-  use("neoclide/vim-jsx-improve")
-  use("rebelot/kanagawa.nvim")
-  --[[ use(
-      {
-        "Pocco81/auto-save.nvim",
-        config = function()
-          require("auto-save").setup { debounce_delay = 135000 }
-        end
-      }
-    ) ]]
-  use("RishabhRD/nvim-lsputils")
-  use("RishabhRD/popfix")
-  use({
+  },
+  "CurtisFenner/luafmt",
+  "rafamadriz/friendly-snippets",
+  "neoclide/vim-jsx-improve",
+  "rebelot/kanagawa.nvim",
+  {
     "SirVer/ultisnips",
-    requires = { { "honza/vim-snippets", rtp = "." }, { "mlaursen/vim-react-snippets" } },
+    dependencies = { { "honza/vim-snippets", rtp = "." }, { "mlaursen/vim-react-snippets" } },
     config = function()
       vim.g.UltiSnipsExpandTrigger = "<Plug>(ultisnips_expand)"
       vim.g.UltiSnipsJumpForwardTrigger = "<Plug>(ultisnips_jump_forward)"
@@ -42,108 +22,84 @@ return require("packer").startup(function(use)
       vim.g.UltiSnipsListSnippets = "<c-x><c-s>"
       vim.g.UltiSnipsRemoveSelectModeMappings = 0
     end,
-  })
-  use({
+  },
+  {
     "neovim/nvim-lspconfig",
-    "williamboman/nvim-lsp-installer",
-  })
-  use("b3nj5m1n/kommentary")
-  use("bfrg/vim-cpp-modern")
-  use("folke/lsp-colors.nvim")
-  use("folke/which-key.nvim")
-  use("gko/vim-coloresque")
-  use({
+  },
+  "b3nj5m1n/kommentary",
+  "bfrg/vim-cpp-modern",
+  "folke/lsp-colors.nvim",
+  "folke/which-key.nvim",
+  "gko/vim-coloresque",
+  {
     "glepnir/dashboard-nvim",
     event = "VimEnter",
-    header = { "DASHBOARD!!!" },
     config = function()
       require("dashboard").setup({})
     end,
-  })
-  use("honza/vim-snippets")
-  use("nvim-lualine/lualine.nvim")
-  use({ "autozimu/LanguageClient-neovim", run = "bash install.sh" })
-  use("hrsh7th/vim-vsnip-integ")
-  use("jlanzarotta/bufexplorer")
-  use({
+  },
+  "honza/vim-snippets",
+  "nvim-lualine/lualine.nvim",
+  { "autozimu/LanguageClient-neovim", build = "bash install.sh" },
+  "hrsh7th/vim-vsnip-integ",
+  "jlanzarotta/bufexplorer",
+  {
     "nvim-tree/nvim-tree.lua",
-    requires = {
+    dependencies = {
       "nvim-tree/nvim-web-devicons", -- optional, for file icons
     },
-  })
-  use("nvim-tree/nvim-web-devicons")
-  use("lewis6991/gitsigns.nvim")
-  use("tpope/vim-fugitive")
-  use("mattn/emmet-vim")
-  use("mfussenegger/nvim-jdtls")
-  use("mhartington/formatter.nvim")
-  use({ "michaelb/sniprun", run = "bash ./install.sh" })
-  use("nanotee/sqls.nvim")
-  use("natebosch/vim-lsc")
-  use("neovim/nvim-lsp")
-  use({
-    "norcalli/nvim-colorizer.lua",
-    ft = { "css", "javascript", "vim", "html" },
-  })
-  use("nvim-lua/lsp-status.nvim")
-  use("nvim-lua/plenary.nvim")
-  use("nvim-lua/popup.nvim")
-  use("kdheepak/lazygit.nvim")
-  use("nvim-telescope/telescope.nvim")
-  use({
+  },
+  "nvim-tree/nvim-web-devicons",
+  "lewis6991/gitsigns.nvim",
+  "tpope/vim-fugitive",
+  "mattn/emmet-vim",
+  "mfussenegger/nvim-jdtls",
+  "mhartington/formatter.nvim",
+  "nanotee/sqls.nvim",
+  "natebosch/vim-lsc",
+  "neovim/nvim-lsp",
+  "norcalli/nvim-colorizer.lua",
+  "nvim-lua/lsp-status.nvim",
+  "nvim-lua/plenary.nvim",
+  "nvim-lua/popup.nvim",
+  "kdheepak/lazygit.nvim",
+  "nvim-telescope/telescope.nvim",
+  {
     "nvim-treesitter/nvim-treesitter",
-    requires = {
+    dependencies = {
       "nvim-treesitter/nvim-treesitter-refactor",
       "nvim-treesitter/nvim-treesitter-textobjects",
     },
-    run = ":TSUpdate",
-  })
-  use("nvim-treesitter/playground")
-  use("tpope/vim-surround")
-  use("onsails/lspkind-nvim")
-  use("navarasu/onedark.nvim")
-  use("udalov/kotlin-vim")
-  use("robert-oleynik/clangd-nvim")
-  use("romgrk/barbar.nvim")
-  use("sainnhe/gruvbox-material")
-  use("simrat39/rust-tools.nvim")
-  use({ "akinsho/flutter-tools.nvim", requires = "nvim-lua/plenary.nvim" })
-  use("simrat39/symbols-outline.nvim")
-  use("sudormrfbin/cheatsheet.nvim")
-  use("tpope/vim-sensible")
-  use({ "ray-x/guihua.lua", run = "cd lua/fzy && make" })
-  use({
+    build = ":TSUpdate",
+  },
+  "nvim-treesitter/playground",
+  "tpope/vim-surround",
+  "onsails/lspkind-nvim",
+  "navarasu/onedark.nvim",
+  "udalov/kotlin-vim",
+  "robert-oleynik/clangd-nvim",
+  "romgrk/barbar.nvim",
+  "sainnhe/gruvbox-material",
+  "simrat39/rust-tools.nvim",
+  { "akinsho/flutter-tools.nvim", dependencies = "nvim-lua/plenary.nvim" },
+  "simrat39/symbols-outline.nvim",
+  "sudormrfbin/cheatsheet.nvim",
+  "tpope/vim-sensible",
+  { "ray-x/guihua.lua", build = "cd lua/fzy && make" },
+  {
     "ray-x/lsp_signature.nvim",
-  })
-  use("voldikss/vim-floaterm")
-  use("windwp/nvim-autopairs")
-  use("hrsh7th/nvim-cmp")
-  use("hrsh7th/cmp-path")
-  use("saadparwaiz1/cmp_luasnip")
-  use("hrsh7th/cmp-buffer")
-  use("hrsh7th/cmp-cmdline")
-  use("hrsh7th/cmp-nvim-lsp")
-  use("hrsh7th/cmp-nvim-lua")
-  use("hrsh7th/cmp-emoji")
-  use("hrsh7th/cmp-calc")
-  use("hrsh7th/cmp-omni")
-  use("L3MON4D3/LuaSnip")
-
-  -- Debugger
-  use({
-    {
-      "mfussenegger/nvim-dap",
-      requires = "jbyuki/one-small-step-for-vimkind",
-      wants = "one-small-step-for-vimkind",
-      module = "dap",
-    },
-    {
-      "rcarriga/nvim-dap-ui",
-      requires = "nvim-dap",
-      after = "nvim-dap",
-      config = function()
-        require("dapui").setup()
-      end,
-    },
-  })
-end)
+  },
+  "voldikss/vim-floaterm",
+  "windwp/nvim-autopairs",
+  "hrsh7th/nvim-cmp",
+  "hrsh7th/cmp-path",
+  "saadparwaiz1/cmp_luasnip",
+  "hrsh7th/cmp-buffer",
+  "hrsh7th/cmp-cmdline",
+  "hrsh7th/cmp-nvim-lsp",
+  "hrsh7th/cmp-nvim-lua",
+  "hrsh7th/cmp-emoji",
+  "hrsh7th/cmp-calc",
+  "hrsh7th/cmp-omni",
+  "L3MON4D3/LuaSnip",
+}

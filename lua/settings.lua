@@ -23,8 +23,6 @@ vim.cmd([[
   set foldexpr=nvim_treesitter#foldexpr()
   set nofoldenable
 ]])
--- Set map leader
-vim.g.mapleader = ","
 
 -- vim.lsp.set_log_level("debug")
 
@@ -136,7 +134,6 @@ require("servers..pylsp")
 require("servers..rust_analyzer")
 require("servers..sqls")
 require("servers..texlab")
-require("servers..lspinstall")
 require("servers..tsserver")
 require("config..barbar")
 require("servers..javals")
@@ -148,14 +145,13 @@ require("config..autopair")
 require("config..devicons")
 require("config..evil_lualine")
 require("config..lspkind")
-require("config..dap")
+---require("config..dap")
 require("config..cmp")
 require("config..telescope")
 require("config..treesitter")
 require("config..gitsign")
 require("config..luasnip")
 require("config..format")
-require("config..dap")
 require("nvim-tree").setup()
 require("colorizer").setup()
 require("lspconfig").emmet_ls.setup({})
