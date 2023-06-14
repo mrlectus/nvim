@@ -4,12 +4,13 @@ vim.g.loaded_netrwPlugin = 1
 local lsp_status = require("lsp-status")
 -- environment for home
 local set = vim.opt
-set.filetype = "off" --disable filetype detection (but re-enable later, see below)
+set.filetype = "off"   --disable filetype detection (but re-enable later, see below)
 HOME = os.getenv("HOME")
 set.compatible = false -- disable compatibility mode with vi
 
 -- set termguicolors to enable highlight groups
 vim.opt.termguicolors = true
+vim.opt.splitright = true
 
 vim.cmd([[
   nnoremap <silent> <Esc><Esc> :nohlsearch<CR><Esc>
@@ -22,6 +23,7 @@ vim.cmd([[
   set foldmethod=expr
   set foldexpr=nvim_treesitter#foldexpr()
   set nofoldenable
+  set mouse=
 ]])
 
 -- vim.lsp.set_log_level("debug")
@@ -30,7 +32,6 @@ vim.cmd([[
 set.hlsearch = true
 
 --Enable mouse mode
-set.mouse = "a"
 
 --Enable break indent
 set.breakindent = true
@@ -55,37 +56,36 @@ set.completeopt:prepend("menuone,noselect,noinsert")
 
 set.list = true
 set.number = true --show line numbers
-set.wrap = false --wrap lines
+set.wrap = false  --wrap lines
 
 --set.spell spelllang=en_us
 set.encoding = "utf-8" --set encoding to UTF-8 (default was "latin1")
-set.mouse = "a" --enable mouse support (might not work well on Mac OS X)
-set.wildmenu = true --visual autocomplete for command menu
-set.lazyredraw = true --redraw screen only when we need to
+set.wildmenu = true    --visual autocomplete for command menu
+set.lazyredraw = true  --redraw screen only when we need to
 set.colorcolumn = "120"
 set.textwidth = 140
-set.showmatch = true --highlight matching parentheses / brackets [{()}]
-set.laststatus = 2 --always show statusline (even with only single window)
-set.ruler = true --show line and column number of the cursor on right side of statusline
+set.showmatch = true  --highlight matching parentheses / brackets [{()}]
+set.laststatus = 2    --always show statusline (even with only single window)
+set.ruler = true      --show line and column number of the cursor on right side of statusline
 set.visualbell = true --blink cursor on error, instead of beeping
 
 -- Tab settings
 set.expandtab = true
-set.tabstop = 4 -- width that a <TAB> character displays as
-set.shiftwidth = 2 -- number of spaces to use for each step of (auto)indent
-set.softtabstop = 2 -- backspace after pressing <TAB> will remove up to this many spaces
+set.tabstop = 4        -- width that a <TAB> character displays as
+set.shiftwidth = 2     -- number of spaces to use for each step of (auto)indent
+set.softtabstop = 2    -- backspace after pressing <TAB> will remove up to this many spaces
 
-set.autoindent = true -- copy indent from current line when starting a new line
+set.autoindent = true  -- copy indent from current line when starting a new line
 set.smartindent = true -- even better autoindent (e.g. add indent after '{')
 
-set.cursorline = true -- highlight current line
-set.autoread = true -- autoreload the file in Vim if it has been changed outside of Vim
+set.cursorline = true  -- highlight current line
+set.autoread = true    -- autoreload the file in Vim if it has been changed outside of Vim
 set.swapfile = false
 set.relativenumber = true
 
 -- Search settings
 set.incsearch = true -- search as characters are entered
-set.hlsearch = true -- highlight matches
+set.hlsearch = true  -- highlight matches
 
 vim.g.indentLine_setColors = 0
 vim.g.indentLine_char = "▏"
@@ -115,18 +115,21 @@ vim.api.nvim_exec(
     autocmd!
     autocmd TextYankPost * silent! lua vim.highlight.on_yank()
   augroup end
-]] ,
+]],
   false
 )
 
 --- require
+require("cmp").config.formatting = {
+  format = require("tailwindcss-colorizer-cmp").formatter,
+}
 require("servers..keybind")
 require("servers..bashls")
 require("servers..cssls")
 --require("servers..ccls")
 require("servers..gopls")
 require("servers..html")
-require("servers..sumneco")
+require("servers..luals")
 require("servers..yamls")
 require("servers..phpactor")
 require("lspconfig").dartls.setup({})
@@ -135,6 +138,8 @@ require("servers..rust_analyzer")
 require("servers..sqls")
 require("servers..texlab")
 require("servers..tsserver")
+require("impatient")
+require("lspconfig").puppet.setup({})
 require("config..barbar")
 require("servers..javals")
 require("servers..kotlinls")
@@ -142,17 +147,31 @@ require("config..theme")
 require("config..colors")
 require("config..autopair")
 require("config..devicons")
+require("config..alpha")
 require("config..evil_lualine")
 require("config..lspkind")
----require("config..dap")
-require("config..cmp")
+require("config..dap")
+require("dapui").setup()
 require("config..telescope")
+require("config..cmp")
 require("config..treesitter")
 require("config..gitsign")
 require("config..luasnip")
+-- require("config..snippy")
 require("config..format")
-require("nvim-tree").setup()
-require("colorizer").setup()
+require("nvim-tree").setup({
+  sort_by = "case_sensitive",
+  view = {
+    width = 30,
+  },
+  renderer = {
+    group_empty = true,
+  },
+  filters = {
+    dotfiles = true,
+  },
+})
+require("colorizer").setup({})
 require("lspconfig").emmet_ls.setup({})
 require("which-key").setup({})
 require("lspconfig").pyre.setup({})
@@ -207,4 +226,5 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagn
 
 -- last
 vim.cmd("source ~/.config/nvim/lua/script.vim")
+vim.cmd([[ autocmd BufRead,BufNewFile *.org set filetype=org ]])
 vim.cmd([[ autocmd BufRead,BufNewFile *.org set filetype=org ]])

@@ -45,6 +45,34 @@ require("formatter").setup({
         }
       end,
     },
+    -- prisma = {
+    --   function()
+    --     return {
+    --       exe = "prisma",
+    --       args = { "format", vim.api.nvim_buf_get_name(0) },
+    --       stdin = false,
+    --     }
+    --   end,
+    -- },
+
+    python = {
+      function()
+        return {
+          exe = "black",
+          args = { "-q", "-" },
+          stdin = true,
+        }
+      end,
+    },
+    dart = {
+      function()
+        return {
+          exe = "dart",
+          args = { "format" },
+          stdin = true,
+        }
+      end,
+    },
     typescriptreact = {
       function()
         return {
@@ -67,6 +95,7 @@ require("formatter").setup({
       function()
         return {
           exe = "rustfmt",
+          args = { "--edition=2018", "--emit=stdout" },
           stdin = true,
         }
       end,
@@ -101,12 +130,13 @@ require("formatter").setup({
     },
   },
 })
+
 vim.api.nvim_exec(
   [[
     augroup FormatAutogroup
   autocmd!
   autocmd BufWritePost * FormatWrite
 augroup END
-]] ,
+]],
   true
 )

@@ -37,16 +37,16 @@ end
 _G.s_tab_complete = function()
   if cmp and cmp.visible() then
     cmp.select_prev_item()
-  elseif luasnip and luasnip.jumpable(-1) then
+  elseif luasnip and luasnip.jumpable( -1) then
     return t("<Plug>luasnip-jump-prev")
   else
     return t("<S-Tab>")
   end
   return ""
 end
-
 require("luasnip").filetype_extend("javascript", { "javascriptreact" })
 require("luasnip").filetype_extend("javascript", { "html" })
+require("luasnip.loaders.from_vscode").lazy_load()
 
 vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", { expr = true })
 vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", { expr = true })

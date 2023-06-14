@@ -1,7 +1,6 @@
 if has("autocmd")
   au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 endif
-autocmd BufWritePre *.tsx,*.ts,*.jsx,*.js EslintFixAll
 function! LspStatus() abort
   if luaeval('#vim.lsp.buf_get_clients() > 0')
     return luaeval("require('lsp-status').status()")
@@ -47,3 +46,4 @@ command! -buffer JdtUpdateConfig lua require('jdtls').update_project_config()
 command! -buffer JdtJol lua require('jdtls').jol()
 command! -buffer JdtBytecode lua require('jdtls').javap()
 command! -buffer JdtJshell lua require('jdtls').jshell()
+
