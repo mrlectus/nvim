@@ -1,2 +1,1 @@
-require'lspconfig'.pylsp.setup{}
-
+require("lspconfig").pylyzer.setup({})
