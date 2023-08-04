@@ -17,6 +17,5 @@ vim.g.mapleader = ","
 
 require("lazy").setup("plugins")
 require("settings")
-require("luasnip.loaders.from_vscode").lazy_load()
 -- Load custom javascript
 -- path to "lua"
