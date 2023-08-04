@@ -1,1 +1,1 @@
-require("lspconfig").pylyzer.setup({})
+require("lspconfig").pyright.setup({})

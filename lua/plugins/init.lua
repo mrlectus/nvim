@@ -1,7 +1,7 @@
 return {
-  "mlaursen/vim-react-snippets",
   "avneesh0612/react-nextjs-snippets",
   "p00f/clangd_extensions.nvim",
+  "github/copilot.vim",
   "rafamadriz/friendly-snippets",
   "neoclide/vim-jsx-improve",
   "neovim/nvim-lspconfig",
@@ -12,7 +12,6 @@ return {
   "leoluz/nvim-dap-go",
   "folke/which-key.nvim",
   "gko/vim-coloresque",
-  "honza/vim-snippets",
   { "autozimu/LanguageClient-neovim", build = "bash install.sh" },
   "hrsh7th/vim-vsnip-integ",
   { "hrsh7th/vim-vsnip",                  dependencies = { "rafamadriz/friendly-snippets" } },

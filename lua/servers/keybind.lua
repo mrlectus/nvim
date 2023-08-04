@@ -76,7 +76,7 @@ local servers = {
   "sqlls",
   "intelephense",
   "rust_analyzer",
-  "pylyzer",
+  "pyright",
   "puppet",
   "kotlin_language_server",
   "jdtls",
