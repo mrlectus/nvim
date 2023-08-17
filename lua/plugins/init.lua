@@ -4,7 +4,10 @@ return {
   "github/copilot.vim",
   "rafamadriz/friendly-snippets",
   "neoclide/vim-jsx-improve",
-  "neovim/nvim-lspconfig",
+  {
+    "neovim/nvim-lspconfig",
+    inlay_hints = { enabled = true },
+  },
   "folke/lsp-colors.nvim",
   "mfussenegger/nvim-dap",
   { "rcarriga/nvim-dap-ui",           dependencies = { "mfussenegger/nvim-dap" } },

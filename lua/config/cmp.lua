@@ -1,26 +1,46 @@
+local M = {}
+local MAX_KIND_WIDTH = 11
+
+M.icons = {
+  Text = "󰉿",
+  Method = "󰆧",
+  Function = "󰊕",
+  Constructor = "",
+  Field = "󰜢",
+  Variable = "󰀫",
+  Class = "󰠱",
+  Interface = "",
+  Module = "",
+  Property = "󰜢",
+  Unit = "󰑭",
+  Value = "󰎠",
+  Enum = "",
+  Keyword = "󰌋",
+  Snippet = "",
+  Color = "󰏘",
+  File = "󰈙",
+  Reference = "󰈇",
+  Folder = "󰉋",
+  EnumMember = "",
+  Constant = "󰏿",
+  Struct = "󰙅",
+  Event = "",
+  Operator = "󰆕",
+  TypeParameter = "",
+}
+
 local ELLIPSIS_CHAR = "…"
 local MAX_LABEL_WIDTH = 25
-local MAX_KIND_WIDTH = 14
-local feedkeys = require("cmp.utils.feedkeys")
-local has_words_before = function()
-  unpack = unpack or table.unpack
-  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-end
 
-local luasnip = require("luasnip")
 local get_ws = function(max, len)
   return (" "):rep(max - len)
 end
 
-local t = function(str)
-  return vim.api.nvim_replace_termcodes(str, true, true, true)
-end
-
+-- Set up nvim-cmp.
 local format = function(_, item)
   local content = item.abbr
-  -- local kind_symbol = symbols[item.kind]
-  -- item.kind = kind_symbol .. get_ws(MAX_KIND_WIDTH, #kind_symbol)
+  local kind_symbol = M.icons[item.kind] .. " (" .. item.kind .. ")"
+  item.kind = kind_symbol .. get_ws(MAX_KIND_WIDTH, #kind_symbol)
 
   if #content > MAX_LABEL_WIDTH then
     item.abbr = vim.fn.strcharpart(content, 0, MAX_LABEL_WIDTH) .. ELLIPSIS_CHAR
@@ -30,10 +50,10 @@ local format = function(_, item)
 
   return item
 end
--- Set up nvim-cmp.
-
 local cmp = require("cmp")
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
+-- luasnip setup
+local luasnip = require("luasnip")
 cmp.setup({
   snippet = {
     -- REQUIRED - youlua snip must specify a snippet engine
@@ -52,27 +72,45 @@ cmp.setup({
     format = format,
   },
   mapping = cmp.mapping.preset.insert({
-    ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-    ["<C-f>"] = cmp.mapping.scroll_docs(4),
+    ["<C-u>"] = cmp.mapping.scroll_docs(-4), -- Up
+    ["<C-d>"] = cmp.mapping.scroll_docs(4),  -- Down
+    -- C-b (back) C-f (forward) for snippet placeholder navigation.
     ["<C-Space>"] = cmp.mapping.complete(),
-    ["<C-e>"] = cmp.mapping.abort(),
-    ["<CR>"] = cmp.mapping.confirm({ select = true }),
-    -- snippet movement with vsnips
-    ["<C-j>"] = cmp.mapping(function(fallback)
-      if vim.fn["vsnip#jumpable"](1) == 1 then
-        feedkeys.call(t("<Plug>(vsnip-jump-next)"), "")
+    ["<CR>"] = cmp.mapping.confirm({
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = true,
+    }),
+    ["<Tab>"] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      elseif luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
       else
         fallback()
       end
-    end, { "i", "s", "c" }),
-    ["<C-h>"] = cmp.mapping(function(fallback)
-      if vim.fn["vsnip#jumpable"](-1) == 1 then
-        feedkeys.call(t("<Plug>(vsnip-jump-prev)"), "")
+    end, { "i", "s" }),
+    ["<S-Tab>"] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      elseif luasnip.jumpable(-1) then
+        luasnip.jump(-1)
       else
         fallback()
       end
-    end, { "i", "s", "c" }),
+    end, { "i", "s" }),
   }),
+  sorting = {
+    comparators = {
+      cmp.config.compare.offset,
+      cmp.config.compare.exact,
+      cmp.config.compare.recently_used,
+      require("clangd_extensions.cmp_scores"),
+      cmp.config.compare.kind,
+      cmp.config.compare.sort_text,
+      cmp.config.compare.length,
+      cmp.config.compare.order,
+    },
+  },
   sources = cmp.config.sources({
     { name = "nvim_lsp", keyword_length = 3 },
     { name = "buffer",   keyword_length = 3 },

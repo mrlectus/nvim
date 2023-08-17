@@ -54,7 +54,6 @@ local lsp_flags = {
 }
 
 local servers = {
-  "tsserver",
   "marksman",
   "remark_ls",
   "ansiblels",
@@ -83,7 +82,7 @@ local servers = {
   "prismals",
 }
 
-local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+local capabilities = vim.lsp.protocol.make_client_capabilities()
 for _, lsp in ipairs(servers) do
   require("lspconfig")[lsp].setup({
     capabilities = capabilities,
@@ -160,23 +159,7 @@ map("n", "<leader>rr", "<Plug>RestNvim", {})
 map("n", "<leader>rl", "<Plug>RestNvimLast", {})
 map("n", "<leader>rp", "<Plug>RestNvimPreview", {})
 
-vim.cmd([[
-  autocmd BufWritePre *.cpp lua vim.lsp.buf.format()
-  autocmd BufWritePre *.h lua vim.lsp.buf.format()
-  autocmd BufWritePre *.css lua vim.lsp.buf.format()
-  autocmd BufWritePre *.html lua vim.lsp.buf.format()
-  autocmd BufWritePre *.java lua vim.lsp.buf.format()
-  autocmd BufWritePre *.lua lua vim.lsp.buf.format()
-  autocmd BufWritePre *.scss lua vim.lsp.buf.format()
-  autocmd BufWritePre *.php lua vim.lsp.buf.format()
-  autocmd BufWritePre *.kts lua vim.lsp.buf.format()
-  autocmd BufWritePre *.kt lua vim.lsp.buf.format()
-  autocmd BufWritePre *.py lua vim.lsp.buf.format()
-  autocmd BufWritePre *.prisma lua vim.lsp.buf.format()
-  autocmd BufWritePre *.go lua vim.lsp.buf.format()
-  autocmd BufWritePre *.ts lua vim.lsp.buf.format()
-]])
-
+vim.cmd([[autocmd BufWritePre * lua vim.lsp.buf.format()]])
 -- Jumping
 map("n", "<leader>nb", "<C-o>", opts)
 
