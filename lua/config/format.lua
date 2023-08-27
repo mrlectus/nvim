@@ -1,3 +1,5 @@
+local format_on_save = require("format-on-save")
+local formatters = require("format-on-save.formatters")
 -- Utilities for creating configurations
 local util = require("formatter.util")
 
@@ -32,15 +34,6 @@ require("formatter").setup({
             "--",
             "-",
           },
-          stdin = true,
-        }
-      end,
-    },
-    typescript = {
-      function()
-        return {
-          exe = "prettier",
-          args = { "--stdin-filepath", vim.fn.fnameescape(vim.api.nvim_buf_get_name(0)), "--single-quote" },
           stdin = true,
         }
       end,
@@ -116,9 +109,24 @@ require("formatter").setup({
 vim.api.nvim_exec(
   [[
     augroup FormatAutogroup
-  autocmd!
-  autocmd BufWritePost * FormatWrite
-augroup END
-]],
+    autocmd!
+    autocmd BufWritePost * FormatWrite
+    augroup END
+  ]],
   true
 )
+
+format_on_save.setup({
+  experiments = {
+    partial_update = true,
+  },
+  exclude_path_patterns = {
+    "/node_modules/",
+    ".local/share/nvim/lazy",
+  },
+  formatter_by_ft = {
+    typescript = formatters.prettierd,
+    typescriptreact = formatters.prettierd,
+    javascriptreact = formatters.prettierd,
+  },
+})

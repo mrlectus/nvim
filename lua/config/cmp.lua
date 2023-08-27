@@ -2,30 +2,30 @@ local M = {}
 local MAX_KIND_WIDTH = 11
 
 M.icons = {
-  Text = "󰉿",
+  Text = "",
   Method = "󰆧",
-  Function = "󰊕",
+  Function = "󰡱",
   Constructor = "",
   Field = "󰜢",
-  Variable = "󰀫",
-  Class = "󰠱",
-  Interface = "",
+  Variable = "󱀍",
+  Class = "",
+  Interface = "",
   Module = "",
   Property = "󰜢",
   Unit = "󰑭",
   Value = "󰎠",
-  Enum = "",
+  Enum = "",
   Keyword = "󰌋",
-  Snippet = "",
+  Snippet = "",
   Color = "󰏘",
   File = "󰈙",
-  Reference = "󰈇",
+  Reference = "",
   Folder = "󰉋",
-  EnumMember = "",
-  Constant = "󰏿",
-  Struct = "󰙅",
+  EnumMember = "",
+  Constant = "",
+  Struct = "",
   Event = "",
-  Operator = "󰆕",
+  Operator = "",
   TypeParameter = "",
 }
 
@@ -74,13 +74,12 @@ cmp.setup({
   mapping = cmp.mapping.preset.insert({
     ["<C-u>"] = cmp.mapping.scroll_docs(-4), -- Up
     ["<C-d>"] = cmp.mapping.scroll_docs(4),  -- Down
-    -- C-b (back) C-f (forward) for snippet placeholder navigation.
     ["<C-Space>"] = cmp.mapping.complete(),
     ["<CR>"] = cmp.mapping.confirm({
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
     }),
-    ["<Tab>"] = cmp.mapping(function(fallback)
+    ["<c-j>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
       elseif luasnip.expand_or_jumpable() then
@@ -88,8 +87,8 @@ cmp.setup({
       else
         fallback()
       end
-    end, { "i", "s" }),
-    ["<S-Tab>"] = cmp.mapping(function(fallback)
+    end, { "i", "s", "c" }),
+    ["<c-h>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
       elseif luasnip.jumpable(-1) then

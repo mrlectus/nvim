@@ -1,39 +1,56 @@
-require("onedark").setup({
-  style = "warmer",
-  transparent = true,
-  code_style = {
-    functions = "bold",
-    keywords = "bold",
+require("catppuccin").setup({
+  flavour = "macchiato", -- latte, frappe, macchiato, mocha
+  background = {        -- :h background
+    light = "macchiato",
+    dark = "frappe",
+  },
+  transparent_background = false, -- disables setting the background color.
+  show_end_of_buffer = false,    -- shows the '~' characters after the end of buffers
+  term_colors = false,           -- sets terminal colors (e.g. `g:terminal_color_0`)
+  dim_inactive = {
+    enabled = false,             -- dims the background color of inactive window
+    shade = "dark",
+    percentage = 0.15,           -- percentage of the shade to apply to the inactive window
+  },
+  no_italic = false,             -- Force no italic
+  no_bold = false,               -- Force no bold
+  no_underline = false,          -- Force no underline
+  styles = {                     -- Handles the styles of general hi groups (see `:h highlight-args`):
+    comments = { "italic" },     -- Change the style of comments
+    conditionals = { "italic" },
+    loops = {},
+    functions = {},
+    keywords = {},
+    strings = {},
+    variables = {},
+    numbers = {},
+    booleans = {},
+    properties = {},
+    types = { "bold" },
+    operators = {},
+  },
+  color_overrides = {},
+  custom_highlights = {},
+  integrations = {
+    cmp = true,
+    gitsigns = true,
+    nvimtree = true,
+    treesitter = true,
+    notify = false,
+    mini = false,
+    barbar = true,
+    -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
   },
 })
-require("onedark").load()
-require("lualine").setup({ options = { theme = "onedark" } })
---[[
-local default_colors = require("kanagawa.colors").setup()
-
--- this will affect all the hl-groups where the redefined colors are used
-local my_colors = {
-    -- use the palette color name...
-    sumiInk1 = "black",
-    fujiWhite = "#FFFFFF",
-    -- ...or the theme name
-    bg = "#272727",
-    -- you can also define new colors if you want
-    -- this will be accessible from require("kanagawa.colors").setup()
-    -- AFTER calling require("kanagawa").setup(config)
-    new_color = "teal"
-}
-
-local overrides = {
-    -- create a new hl-group using default palette colors and/or new ones
-    MyHlGroup1 = { fg = default_colors.waveRed, bg = "#AAAAAA", underline = true, bold = true, guisp="blue" },
-
-    -- override existing hl-groups, the new keywords are merged with existing ones
-    VertSplit  = { fg = default_colors.bg_dark, bg = "NONE" },
-    TSError    = { link = "Error" },
-    TSKeywordOperator = { bold = true},
-    StatusLine = { fg = my_colors.new_color }
-}
-
-require'kanagawa'.setup({ overrides = overrides, colors = my_colors })
-vim.cmd("colorscheme kanagawa") ]]
+-- setup must be called before loading
+vim.cmd.colorscheme("catppuccin")
+require("lualine").setup({ options = { theme = "auto" } })
+-- require("onedark").setup({
+--   style = "warmer",
+--   transparent = true,
+--   code_style = {
+--     functions = "bold",
+--     keywords = "bold",
+--   },
+-- })
+-- require("onedark").load()

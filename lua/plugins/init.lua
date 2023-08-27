@@ -8,6 +8,8 @@ return {
     "neovim/nvim-lspconfig",
     inlay_hints = { enabled = true },
   },
+  { "elentok/format-on-save.nvim" },
+  { "catppuccin/nvim",            name = "catppuccin", priority = 1000 },
   "folke/lsp-colors.nvim",
   "mfussenegger/nvim-dap",
   { "rcarriga/nvim-dap-ui",           dependencies = { "mfussenegger/nvim-dap" } },

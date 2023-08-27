@@ -1,2 +1,1 @@
-require('evil_lualine')
-
+require("evil_lualine")
