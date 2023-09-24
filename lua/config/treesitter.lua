@@ -1,18 +1,27 @@
 require("nvim-treesitter.configs").setup({
+  modules = { "*" },
+  -- List of parsers to ignore installing (or "all")
+  ignore_install = { "javascript" },
   -- A list of parser names, or "all"
   ensure_installed = {
     "c",
+    "dockerfile",
     "cpp",
     "cpp",
-    "lua",
+    "gitignore",
     "go",
     "html",
-    "tsx",
+    "http",
     "java",
     "javascript",
+    "json",
+    "lua",
+    "prisma",
     "python",
     "rust",
+    "tsx",
     "typescript",
+    "yaml",
   },
   -- Install parsers synchronously (only applied to `ensure_installed`)
   sync_install = false,

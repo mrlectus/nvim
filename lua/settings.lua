@@ -71,7 +71,7 @@ set.visualbell = true --blink cursor on error, instead of beeping
 
 -- Tab settings
 set.expandtab = true
-set.tabstop = 4        -- width that a <TAB> character displays as
+set.tabstop = 2        -- width that a <TAB> character displays as
 set.shiftwidth = 2     -- number of spaces to use for each step of (auto)indent
 set.softtabstop = 2    -- backspace after pressing <TAB> will remove up to this many spaces
 
@@ -101,10 +101,6 @@ vim.g.ruby_host_prog = "/home/brown/.local/share/gem/ruby/3.0.0/bin/neovim-ruby-
 
 vim.g.dashboard_default_executive = "telescope"
 
-vim.g.completion_enable_snippet = "vim-vsnip"
-vim.g.vsnip_filetypes = {}
-vim.g.vsnip_filetypes.javascriptreact = { "javascript" }
-vim.g.vsnip_filetypes.typescriptreact = { "typescript" }
 vim.g.user_emmet_expandabbr_key = "<c-e>"
 set.background = "dark" -- configure Vim to use brighter colors
 
@@ -144,6 +140,7 @@ require("config..barbar")
 require("servers..javals")
 require("servers..kotlinls")
 require("config..theme")
+require("config..mini")
 require("config..colors")
 require("config..autopair")
 require("config..devicons")
@@ -159,18 +156,6 @@ require("config..gitsign")
 require("config..luasnip")
 -- require("config..snippy")
 require("config..format")
-require("nvim-tree").setup({
-  sort_by = "case_sensitive",
-  view = {
-    width = 30,
-  },
-  renderer = {
-    group_empty = true,
-  },
-  filters = {
-    dotfiles = true,
-  },
-})
 require("colorizer").setup({})
 require("lspconfig").emmet_ls.setup({})
 require("which-key").setup({})
@@ -225,6 +210,6 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagn
 })
 
 -- last
+vim.cmd([[ autocmd BufRead,BufNewFile *.org set filetype=org ]])
+vim.cmd([[ autocmd BufRead,BufNewFile *.org set filetype=org ]])
 vim.cmd("source ~/.config/nvim/lua/script.vim")
-vim.cmd([[ autocmd BufRead,BufNewFile *.org set filetype=org ]])
-vim.cmd([[ autocmd BufRead,BufNewFile *.org set filetype=org ]])

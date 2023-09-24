@@ -68,6 +68,7 @@ local servers = {
   "tailwindcss",
   "texlab",
   "html",
+  "astro",
   "dartls",
   "cssls",
   "phpactor",
@@ -145,8 +146,8 @@ map("t", "<leader>t", "<C-\\><C-n>:FloatermToggle<CR>", opts)
 
 -- turn off search highlighting with <CR> (carriage-return)
 map("n", "<CR>", ":nohlsearch<CR><CR>", opts)
-map("n", "<F13>", ":NvimTreeToggle<CR>", opts)
-map("n", "<F14>", ":NvimTreeCollapse<CR>", opts)
+map("n", "<F13>", ":lua MiniFiles.open()<CR>", opts)
+map("n", "<F14>", ":lua MiniFiles.reset() <CR>", opts)
 
 -- Dashboard provides session support. With SessionLoad and SessionSave
 map("n", "<leader>ss", ":SessionSave<CR>", opts)

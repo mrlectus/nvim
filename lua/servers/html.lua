@@ -16,3 +16,4 @@ require("lspconfig").tailwindcss.setup({
     },
   },
 })
+require("lspconfig").astro.setup({})

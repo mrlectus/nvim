@@ -95,6 +95,15 @@ require("formatter").setup({
         }
       end,
     },
+    astro = {
+      function()
+        return {
+          exe = "prettier",
+          args = { "--write", "%", "--plugin=prettier-plugin-astro" },
+          stdin = false,
+        }
+      end,
+    },
 
     -- Use the special "*" filetype for defining formatter configurations on
     -- any filetype

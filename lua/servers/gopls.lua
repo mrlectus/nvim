@@ -1,16 +1,21 @@
-require "lspconfig".gopls.setup {}
-local lspconfig = require "lspconfig"
-lspconfig.gopls.setup {
+require("lspconfig").gopls.setup({})
+local lspconfig = require("lspconfig")
+lspconfig.gopls.setup({
   cmd = { "gopls", "serve" },
   settings = {
     gopls = {
       analyses = {
-        unusedparams = true
+        unusedparams = true,
       },
-      staticcheck = true
-    }
-  }
-}
+      staticcheck = true,
+    },
+    hints = {
+      assignVariableTypes = true,
+      functionTypeParameters = true,
+      parameterNames = true,
+    },
+  },
+})
 
 function go_org_imports(wait_ms)
   local params = vim.lsp.util.make_range_params()
@@ -26,6 +31,6 @@ function go_org_imports(wait_ms)
   end
 end
 
-vim.cmd [[
+vim.cmd([[
 autocmd BufWritePre *.go lua go_org_imports()
-]]
+]])
