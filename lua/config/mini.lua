@@ -1,7 +1,3 @@
-require("mini.files").setup({
-  mappings = {
-    synchronize = "<CR>",
-  },
-})
+require("nvim-tree").setup()
 require("mini.ai").setup()
 require("mini.comment").setup()
