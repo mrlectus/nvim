@@ -30,7 +30,3 @@ function go_org_imports(wait_ms)
     end
   end
 end
-
-vim.cmd([[
-autocmd BufWritePre *.go lua go_org_imports()
-]])
