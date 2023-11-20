@@ -5,15 +5,16 @@ require("lspconfig").eslint.setup({})
 require("lspconfig").jsonls.setup({
   capabilities = capabilities,
 })
-require("lspconfig").custom_elements_ls.setup({
-  filetypes = {
-    "javascriptreact",
-    "javascript.jsx",
-    "typescriptreact",
-    "typescript.tsx",
-    "html",
-  },
-})
+
+-- require("lspconfig").custom_elements_ls.setup({
+--   filetypes = {
+--     "javascriptreact",
+--     "javascript.jsx",
+--     "typescriptreact",
+--     "typescript.tsx",
+--     "html",
+--   },
+-- })
 require("lspconfig").prismals.setup({})
 require("flutter-tools").setup({}) -- use defaults
 require("typescript-tools").setup({
@@ -21,18 +22,7 @@ require("typescript-tools").setup({
     tsserver_file_preferences = {
       includeInlayParameterNameHints = "all",
       includeCompletionsForModuleExports = true,
-      includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-      includeInlayFunctionParameterTypeHints = true,
-      includeInlayVariableTypeHints = true,
-      includeInlayVariableTypeHintsWhenTypeMatchesName = true,
-      includeInlayPropertyDeclarationTypeHints = true,
-      includeInlayFunctionLikeReturnTypeHints = true,
-      includeInlayEnumMemberValueHints = true,
       quotePreference = "auto",
-    },
-    tsserver_format_options = {
-      allowIncompleteCompletions = false,
-      allowRenameOfImportPath = false,
     },
   },
 })

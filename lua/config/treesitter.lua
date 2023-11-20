@@ -1,7 +1,7 @@
 require("nvim-treesitter.configs").setup({
+  ignore_install = {},
   modules = { "*" },
   -- List of parsers to ignore installing (or "all")
-  ignore_install = { "javascript" },
   -- A list of parser names, or "all"
   ensure_installed = {
     "c",
