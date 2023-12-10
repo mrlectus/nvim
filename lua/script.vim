@@ -48,6 +48,9 @@ command! -buffer JdtBytecode lua require('jdtls').javap()
 command! -buffer JdtJshell lua require('jdtls').jshell()
 let g:codeium_enabled = v:false
 nnoremap <c-j> :m .+1<CR>==
+" Example mapping for doing searches from within neovim (may change) using telescope.
+" (requires telescope.nvim to be installed)
+nnoremap <space>ss <cmd>lua require('sg.extensions.telescope').fuzzy_search_results()<CR>
 nnoremap <c-k> :m .-2<CR>==
 inoremap <c-j> <Esc>:m .+1<CR>==gi
 inoremap <c-k> <Esc>:m .-2<CR>==gi

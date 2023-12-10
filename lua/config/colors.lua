@@ -12,4 +12,9 @@ require("lsp-colors").setup({
   Hint = "#10B981",
 })
 
-require("ibl").setup({})
+require("ibl").setup({
+  indent = {
+    char = "▎",
+    tab_char = "▎", -- This was the fix
+  },
+})

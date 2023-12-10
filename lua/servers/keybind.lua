@@ -19,78 +19,83 @@ map("n", "<space>q", vim.diagnostic.setloclist)
 -- Use LspAttach autocommand to only map the following keys
 -- after the language server attaches to the current buffer
 vim.api.nvim_create_autocmd("LspAttach", {
-	group = vim.api.nvim_create_augroup("UserLspConfig", {}),
-	callback = function(ev)
-		-- Enable completion triggered by <c-x><c-o>
-		vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
+  group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+  callback = function(ev)
+    -- Enable completion triggered by <c-x><c-o>
+    vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
 
-		-- Buffer local mappings.
-		-- See `:help vim.lsp.*` for documentation on any of the below functions
-		local opts = { buffer = ev.buf }
-		map("n", "gD", vim.lsp.buf.declaration, opts)
-		map("n", "gd", tscope.lsp_definitions, opts)
-		map("n", "K", vim.lsp.buf.hover, opts)
-		map("n", "gi", vim.lsp.buf.implementation, opts)
-		map("n", "<C-k>", vim.lsp.buf.signature_help, opts)
-		map("n", "<space>wa", vim.lsp.buf.add_workspace_folder, opts)
-		map("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, opts)
-		map("n", "<space>wl", function()
-			print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-		end, opts)
-		map("n", "<space>D", vim.lsp.buf.type_definition, opts)
-		map("n", "<space>rn", vim.lsp.buf.rename, opts)
-		map({ "n", "v" }, "<space>ca", vim.lsp.buf.code_action, opts)
-		map("n", "gr", vim.lsp.buf.references, opts)
-		map("n", "<space>f", function()
-			vim.lsp.buf.format({ async = true })
-		end, opts)
-	end,
+    -- Buffer local mappings.
+    -- See `:help vim.lsp.*` for documentation on any of the below functions
+    local opts = { buffer = ev.buf }
+    map("n", "gD", vim.lsp.buf.declaration, opts)
+    map("n", "gd", tscope.lsp_definitions, opts)
+    map("n", "K", vim.lsp.buf.hover, opts)
+    map("n", "gi", vim.lsp.buf.implementation, opts)
+    map("n", "<C-k>", vim.lsp.buf.signature_help, opts)
+    map("n", "<space>wa", vim.lsp.buf.add_workspace_folder, opts)
+    map("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, opts)
+    map("n", "<space>wl", function()
+      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    end, opts)
+    map("n", "<space>D", vim.lsp.buf.type_definition, opts)
+    map("n", "<space>rn", vim.lsp.buf.rename, opts)
+    map({ "n", "v" }, "<space>ca", vim.lsp.buf.code_action, opts)
+    map("n", "gr", vim.lsp.buf.references, opts)
+    map("n", "<space>f", function()
+      vim.lsp.buf.format({ async = true })
+    end, opts)
+  end,
 })
 
 local opts = { noremap = true, silent = true }
 local lsp_flags = {
-	-- This is the default in Nvim 0.7+
-	debounce_text_changes = 150,
+  -- This is the default in Nvim 0.7+
+  debounce_text_changes = 150,
 }
 
 local servers = {
-	"marksman",
-	"remark_ls",
-	"ansiblels",
-	"dockerls",
-	"lua_ls",
-	"eslint",
-	"solc",
-	"vimls",
-	"solidity_ls",
-	"bashls",
-	"clangd",
-	"tailwindcss",
-	"texlab",
-	"html",
-	"astro",
-	"svelte",
-	"dartls",
-	"cssls",
-	"phpactor",
-	"gopls",
-	"sqlls",
-	"intelephense",
-	"rust_analyzer",
-	"pyright",
-	"puppet",
-	"kotlin_language_server",
-	"jdtls",
-	"prismals",
+  "marksman",
+  "remark_ls",
+  "ansiblels",
+  "dockerls",
+  "lua_ls",
+  "eslint",
+  "solc",
+  "vimls",
+  "solidity_ls",
+  "bashls",
+  "clangd",
+  "tailwindcss",
+  "texlab",
+  "hls",
+  "html",
+  "astro",
+  "svelte",
+  "dartls",
+  "cssls",
+  "phpactor",
+  "gopls",
+  "sqlls",
+  "intelephense",
+  "rust_analyzer",
+  "pyright",
+  "puppet",
+  "kotlin_language_server",
+  "jdtls",
+  "prismals",
 }
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 for _, lsp in ipairs(servers) do
-	require("lspconfig")[lsp].setup({
-		capabilities = capabilities,
-		on_attach = on_attach,
-		flags = lsp_flags,
-	})
+  require("lspconfig")[lsp].setup({
+    capabilities = capabilities,
+    on_attach = function(client, bufnr)
+      if client.server_capabilities.inlayHintProvider then
+        vim.lsp.inlay_hint(bufnr, true)
+      end
+    end,
+    flags = lsp_flags,
+  })
 end
 
 --source lua & vim
