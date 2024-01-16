@@ -1,7 +1,7 @@
 --Enable (broadcasting) snippet capability for completion
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
-require("lspconfig").eslint.setup({})
+-- require("lspconfig").eslint.setup({})
 require("lspconfig").jsonls.setup({
   capabilities = capabilities,
 })
@@ -26,3 +26,4 @@ require("typescript-tools").setup({
     },
   },
 })
+require("lspconfig").solc.setup({})

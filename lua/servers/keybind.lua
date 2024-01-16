@@ -55,14 +55,11 @@ local lsp_flags = {
 
 local servers = {
   "marksman",
-  "remark_ls",
   "ansiblels",
   "dockerls",
   "lua_ls",
-  "eslint",
   "solc",
   "vimls",
-  "solidity_ls",
   "bashls",
   "clangd",
   "tailwindcss",
@@ -78,7 +75,7 @@ local servers = {
   "sqlls",
   "intelephense",
   "rust_analyzer",
-  "pyright",
+  "jedi_language_server",
   "puppet",
   "kotlin_language_server",
   "jdtls",
