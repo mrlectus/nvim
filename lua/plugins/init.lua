@@ -19,11 +19,9 @@ return {
   -- },
   -- },
   { "David-Kunz/gen.nvim" },
-  "avneesh0612/react-nextjs-snippets",
   { "echasnovski/mini.nvim", version = "*" },
   "p00f/clangd_extensions.nvim",
   "github/copilot.vim",
-  "rafamadriz/friendly-snippets",
   "neoclide/vim-jsx-improve",
   {
     "neovim/nvim-lspconfig",
@@ -43,15 +41,6 @@ return {
   "hrsh7th/vim-vsnip-integ",
   "nvim-tree/nvim-web-devicons",
   { "lukas-reineke/indent-blankline.nvim" },
-  "Nash0x7E2/awesome-flutter-snippets",
-  {
-    "L3MON4D3/LuaSnip",
-    dependencies = { "rafamadriz/friendly-snippets" },
-    -- follow latest release.
-    version = "1.2.1", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
-    -- install jsregexp (optional!).
-    build = "make install_jsregexp",
-  },
   {
     "kylechui/nvim-surround",
     version = "*", -- Use for stability; omit to use `main` branch for the latest features
@@ -63,6 +52,9 @@ return {
     end,
   },
   "mattn/emmet-vim",
+  "hrsh7th/cmp-vsnip",
+  "hrsh7th/vim-vsnip",
+  "nvim-telescope/telescope-media-files.nvim",
   "mfussenegger/nvim-jdtls",
   "mhartington/formatter.nvim",
   "nanotee/sqls.nvim",

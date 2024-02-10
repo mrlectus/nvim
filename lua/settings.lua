@@ -1,4 +1,3 @@
---Enable (broadcasting) snippet capability for completion
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 local lsp_status = require("lsp-status")
@@ -137,7 +136,7 @@ require("config..telescope")
 require("config..cmp")
 require("config..treesitter")
 require("config..gitsign")
-require("config..luasnip")
+-- require("config..luasnip")
 -- require("config..snippy")
 require("config..format")
 require("colorizer").setup({})
