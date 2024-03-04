@@ -1,4 +1,5 @@
 return {
+  { "mistricky/codesnap.nvim", build = "make" },
   {
     "utilyre/barbecue.nvim",
     name = "barbecue",
@@ -19,7 +20,7 @@ return {
   -- },
   -- },
   { "David-Kunz/gen.nvim" },
-  { "echasnovski/mini.nvim", version = "*" },
+  { "echasnovski/mini.nvim",   version = "*" },
   "p00f/clangd_extensions.nvim",
   "github/copilot.vim",
   "neoclide/vim-jsx-improve",

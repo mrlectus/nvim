@@ -69,5 +69,6 @@ set foldmethod=expr
 set foldexpr=nvim_treesitter#foldexpr()
 set nofoldenable
 set mouse=
+set statusline+=%{get(b:,'gitsigns_status','')}
 autocmd FileType go setlocal shiftwidth=4 tabstop=4 noexpandtab
 autocmd FileType rust setlocal shiftwidth=2 tabstop=2 noexpandtab
